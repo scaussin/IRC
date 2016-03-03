@@ -17,23 +17,23 @@
 
 typedef struct	s_fd
 {
-	int	type;
-	void	(*fct_read)();
-	void	(*fct_write)();
-	char	buf_read[BUF_SIZE + 1];
-	char	buf_write[BUF_SIZE + 1];
-}		t_fd;
+	int			type;
+	void		(*fct_read)();
+	void		(*fct_write)();
+	char		buf_read[BUF_SIZE + 1];
+	char		buf_write[BUF_SIZE + 1];
+}				t_fd;
 
 typedef struct	s_env
 {
 	t_fd		*fds;
-	int		port;
-	int		maxfd;
-	int		max;
-	int		r;
-	fd_set	fd_read;
-	fd_set	fd_write;
-}		t_env;
+	int			port;
+	int			maxfd;
+	int			max;
+	int			r;
+	fd_set		fd_read;
+	fd_set		fd_write;
+}				t_env;
 
 void	init_env(t_env *e);
 void	get_opt(t_env *e, int ac, char **av);
