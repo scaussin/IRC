@@ -10,19 +10,13 @@ void	do_select(t_env *e)
 /*main(void)
 {
     fd_set rfds;
-    struct timeval tv;
     int retval;
 
     //Surveiller stdin (fd 0) en attente d'entrées 
     FD_ZERO(&rfds);
     FD_SET(0, &rfds);
 
-    // Pendant 5 secondes maxi 
-    tv.tv_sec = 5;
-    tv.tv_usec = 0;
-
-    retval = select(1, &rfds, NULL, NULL, &tv);
-    // Considérer tv comme indéfini maintenant ! 
+    retval = select(1, &rfds, NULL, NULL, NULL);
 
     if (retval == -1)
         perror("select()");
