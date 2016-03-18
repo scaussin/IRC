@@ -14,6 +14,6 @@
 
 int main()
 {
-	ft_printf("Bonjour, je suis un server\n");
+	ft_printf("server\n");
 	return (0);
 }
