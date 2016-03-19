@@ -28,6 +28,16 @@ int	main(int ac, char **av)
 	return (0);
 }
 
+void	main_loop(t_env *e)
+{
+	while (1)
+	{
+		init_fd(e);
+		do_select(e);
+		check_fd(e);
+	}
+}
+
 void		init_env(t_env *e)
 {
 	int		i;
