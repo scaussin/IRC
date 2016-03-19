@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:33:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/03/10 13:51:58 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/03/10 14:11:31 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int main()
 {
-	ft_printf("Bonjour, je suis un server\n");
+	ft_printf("client\n");
 	return (0);
 }
