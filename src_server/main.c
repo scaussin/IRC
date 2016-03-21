@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:27:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/03/10 13:32:23 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/03/21 00:43:45 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,37 @@
 #include <netinet/in.h>
 #include "bircd.h"
 
-int	main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_env	e;
 
 	init_env(&e);
+	
 	get_opt(&e, ac, av);
 	srv_create(&e, e.port);
 	main_loop(&e);
+
+	/*test*/
+	/*t_ring_buf buf;
+	//buf.start = 6;
+	print_buf(buf);
+	write_buf(&buf, "bonjour132456", 7);
+	print_buf(buf);
+	write_buf(&buf, "1234", 4);
+	print_buf(buf);*/
 	return (0);
+}
+
+void	print_buf(t_ring_buf buf)
+{
+	char	*data_buf;
+
+	data_buf = read_buf(buf);
+	ft_printf("###########\n\
+start: %d\n\
+len:   %d\n\
+data:  |%s|\n\n", buf.start, buf.len, data_buf);
+	free (data_buf);
 }
 
 void	main_loop(t_env *e)
@@ -38,7 +60,7 @@ void	main_loop(t_env *e)
 	}
 }
 
-void		init_env(t_env *e)
+void	init_env(t_env *e)
 {
 	int		i;
 	struct rlimit	rlp;

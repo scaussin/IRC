@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/03/10 13:50:57 by scaussin         ###   ########.fr        #
+#    Updated: 2016/03/19 17:02:07 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC1 =			src_server/check_fd.c \
 				src_server/do_select.c \
 				src_server/init_fd.c \
 				src_server/main.c \
-				src_server/main_loop.c \
 				src_server/srv_accept.c \
 				src_server/x.c
 
