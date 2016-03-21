@@ -6,9 +6,9 @@
 
 void			srv_accept(t_env *e, int s)
 {
-	int			cs;
+	int					cs;
 	struct sockaddr_in	csin;
-	socklen_t		csin_len;
+	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
 	cs = X(-1, accept(s, (struct sockaddr*)&csin, &csin_len), "accept");

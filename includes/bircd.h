@@ -60,8 +60,6 @@ void	init_fd(t_env *e);
 void	do_select(t_env *e);
 void	check_fd(t_env *e);
 
-/*int		size_full(t_ring_buf buf);
-int		size_free(t_ring_buf buf);*/
 char	*read_buf(t_ring_buf buf);
 void	write_buf(t_ring_buf *buf, char *to_write, int size);
 int		read_circular(t_ring_buf *buf_read, int cs);
