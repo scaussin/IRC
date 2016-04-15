@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/03/19 17:02:07 by scaussin         ###   ########.fr        #
+#    Updated: 2016/04/14 18:31:38 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,10 @@ SRC1 =			src_server/check_fd.c \
 				src_server/init_fd.c \
 				src_server/main.c \
 				src_server/srv_accept.c \
+				src_server/lexer.c \
+				src_server/parser.c \
+				src_server/protocol.c \
+				src_server/cmd.c \
 				src_server/x.c
 
 
@@ -69,7 +73,7 @@ clean:
 
 fclean:
 				@echo "\033[31m[fclean]\t\033[0m[fclean] libft\t\t" | tr -d '\n'
-				Make -C libft fclean
+				#Make -C libft fclean
 				@echo "\033[32mOK\033[0m"
 				@echo "\t\t[clean] .o files\t\033[32mOK\033[0m"
 				@echo "\t\trm $(NAME1) $(NAME2)\t" | tr -d '\n'

@@ -1,0 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   protocol.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/14 17:42:52 by scaussin          #+#    #+#             */
+/*   Updated: 2016/04/15 17:57:00 by scaussin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "bircd.h"
+
+char		*protocol_to_string(t_protocol msg)
+{
+	int		i;
+	char	*str;
+
+	str = (char *)Xv(NULL, malloc(BUF_SIZE), "malloc");
+	ft_bzero(str, BUF_SIZE);
+	if (msg.prefix)
+		ft_strcat(str, ":");
+	ft_strcat(str, msg.prefix);
+	if (msg.prefix)
+		ft_strcat(str, " ");
+	ft_strcat(str, msg.command);
+	if (msg.params)
+		ft_strcat(str, " ");
+	i = 0;
+	while (msg.params && msg.params[i])
+	{
+		ft_strcat(str, msg.params[i]);
+		if (msg.params[i + 1])
+			ft_strcat(str, " ");
+		i++;
+	}
+	if (msg.trailer)
+		ft_strcat(str, " :");
+	ft_strcat(str, msg.trailer);
+	ft_strcat(str, "\r\n\0");
+	return (str);
+}
+
+void	print_protocol(t_protocol msg)
+{
+	int		i;
+
+	i = 0;
+	ft_printf("prefix: |%s|\n", msg.prefix);
+	ft_printf("command: |%s|\n", msg.command);
+	if (!msg.params)
+		ft_printf("params: (null)\n");
+	else
+	ft_printf("params:\n");
+	while (msg.params && (msg.params)[i])
+	{
+		ft_printf("\t|%s|\n", (msg.params)[i]);
+		i++;
+	}
+	ft_printf("trailer: |%s|\n", msg.trailer);
+}
+
+/*protocol_to_str*/
+
+
+t_protocol	fill_protocol(char *prefix, char *cmd, char **params, char *trailer)
+{
+	t_protocol	msg;
+
+	msg.prefix = prefix;
+	msg.command = cmd;
+	msg.params = params;
+	msg.trailer = trailer;
+	return (msg);
+}

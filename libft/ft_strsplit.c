@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/26 09:36:05 by scaussin          #+#    #+#             */
-/*   Updated: 2015/03/25 15:49:26 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/10 01:20:42 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ char		**ft_strsplit(char const *s, char c)
 	int		m;
 	char	**split;
 
-	if (!s)
+	if (!s || !s[0])
 		return (NULL);
-	else if (s[0] == '\0')
-		return (split = (char **)malloc(1));
 	else
 	{
 		m = ft_nbr_tab(s, c);
+		if (m == 0)
+			return (NULL);
 		split = (char **)malloc((sizeof(char *) * (m + 1)));
 		if (split == NULL)
 			return (NULL);

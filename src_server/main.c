@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:27:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/03/21 22:47:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/15 17:10:59 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,13 @@ int		main(int ac, char **av)
 	main_loop(&e);
 
 	/*test*/
-	/*t_ring_buf buf;
+	/*
 	//buf.start = 6;
 	print_buf(buf);
-	write_buf(&buf, "bonjour132456", 7);
 	print_buf(buf);
 	write_buf(&buf, "1234", 4);
 	print_buf(buf);*/
 	return (0);
-}
-
-void	print_buf(t_ring_buf buf)
-{
-	char	*data_buf;
-
-	data_buf = read_buf(buf);
-	ft_printf("###########\n\
-start: %d\n\
-len:   %d\n\
-data:  |%s|\n\n", buf.start, buf.len, data_buf);
-	free (data_buf);
 }
 
 void	main_loop(t_env *e)
@@ -68,6 +55,8 @@ void	init_env(t_env *e)
 	X(-1, getrlimit(RLIMIT_NOFILE, &rlp), "getrlimit");
 	e->maxfd = rlp.rlim_cur;
 	e->fds = (t_fd*)Xv(NULL, malloc(sizeof(*e->fds) * e->maxfd), "malloc");
+	e->ptr_func = (t_ptr_func*)Xv(NULL, malloc(sizeof(*e->ptr_func) * SIZE_PTR_FUNC), "malloc");
+	init_ptr_func(e->ptr_func);
 	i = 0;
 	while (i < e->maxfd)
 	{

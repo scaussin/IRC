@@ -15,7 +15,8 @@ void			srv_accept(t_env *e, int s)
 	printf("New client #%d from %s:%d\n", cs,
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	clean_fd(&e->fds[cs]);
-	e->fds[cs].type = FD_CLIENT;
+	e->fds[cs].type = FD_CLIENT_NO_REGISTER;
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
+	write_log(SUCCES_CLIENT_CONNECTED);
 }
