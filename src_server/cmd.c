@@ -6,24 +6,34 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 18:30:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/15 18:00:49 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/18 00:12:54 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bircd.h"
 
-void	init_ptr_func(t_ptr_func *ptr_func)
+void	cmd_names(t_env *e, int cs, t_protocol msg)
 {
-	ptr_func[0].name = "USER";
-	ptr_func[0].func = cmd_user;
-	ptr_func[1].name = "NICK";
-	ptr_func[1].func = cmd_nick;
-	ptr_func[2].name = "PING";
-	ptr_func[2].func = cmd_ping;
-	ptr_func[3].name = "PRIVMSG";
-	ptr_func[3].func = cmd_privmsg;
-	ptr_func[4].name = "AWAY";
-	ptr_func[4].func = cmd_away;
+	char	**params_end;
+	char	**params_list;
+
+	if (e->fds[cs].chan && msg.params && msg.params[0]
+		&& !ft_strcmp(msg.params[0], e->fds[cs].chan))
+	{
+		params_list = malloc_params(3);
+		ft_strcpy(params_list[0], e->fds[cs].nick);
+		ft_strcpy(params_list[1], "=");
+		ft_strcpy(params_list[2], e->fds[cs].chan);
+		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"353", params_list, "scaussin"));
+		free_params(params_list);
+	}
+	params_end = malloc_params(2);
+	ft_strcpy(params_end[0], e->fds[cs].nick);
+	ft_strcpy(params_end[1], e->fds[cs].chan);
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+		"366", params_end, "End of /NAMES list."));
+	free_params(params_end);
 }
 
 void	cmd_unknown(t_env *e, int cs, t_protocol msg)
@@ -38,7 +48,7 @@ void	cmd_unknown(t_env *e, int cs, t_protocol msg)
 	free(trailer);
 }
 
-void	cmd_away(t_env *e, int cs, t_protocol msg)
+void	cmd_away(t_env *e, int cs, t_protocol msg)/**/
 {
 	char	*tmp;
 	char	*str;
@@ -67,25 +77,19 @@ void	cmd_privmsg(t_env *e, int cs, t_protocol msg)
 
 void	cmd_user(t_env *e, int cs, t_protocol msg)
 {
-	if (msg.params && msg.params[0] && msg.params[0][0])
+	if (e->fds[cs].name)
+		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"ERR_ALREADYREGISTRED", NULL, "Your are already registred"));
+	else if (msg.params && msg.params[0] && msg.params[0][0])
 	{
 		e->fds[cs].name = ft_strdup(msg.params[0]);
 		register_client(&e->fds[cs]);
 	}
 	else
-		send_str_to_client(&e->fds[cs], "ERR_NEEDMOREPARAMS :need username\r\n");
-}
-
-void	cmd_nick(t_env *e, int cs, t_protocol msg)
-{
-	if (msg.params && msg.params[0] && msg.params[0][0])
 	{
-		e->fds[cs].nick = ft_strdup(msg.params[0]);
-		register_client(&e->fds[cs]);
+		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"ERR_NEEDMOREPARAMS", NULL, "need username"));
 	}
-	else
-		send_str_to_client(&e->fds[cs], "ERR_NONICKNAMEGIVEN :need nickname\r\n");
-	/*doublon*/
 }
 
 void	cmd_ping(t_env *e, int cs, t_protocol msg)
@@ -103,7 +107,7 @@ void	cmd_ping(t_env *e, int cs, t_protocol msg)
 
 void	register_client(t_fd *client)
 {
-	if (client->type == FD_CLIENT_NO_REGISTER && client->name && client->nick)
+	if (client->type == FD_CLIENT_NO_REGISTER && client->name && client->nick[0])
 	{
 		ft_printf("Client [%s] accepted\n", client->nick);
 		//send_str_to_client(client, ":127.0.0.1 001 scaussin :Welcome\r\n:127.0.0.1 002 scaussin :Your host is irc_scaussin, running version 1\r\n:127.0.0.1 003 scaussin :This server was created\r\n:127.0.0.1 004 scaussin irc_scaussin\r\n:127.0.0.1 005 scaussin irc_scaussin\r\n:127.0.0.1 005 scaussin irc_scaussin\r\n:127.0.0.1 NOTICE scaussin :Bonjour\r\n");

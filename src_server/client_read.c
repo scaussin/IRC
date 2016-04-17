@@ -19,6 +19,7 @@ void	client_read(t_env *e, int cs)
 		{
 
 			parser(e, cs, msg);
+			free_protocol(msg);
 			/*print_protocol(msg);
 			ft_printf("msg: %s", protocol_to_string(msg));
 			if (e->fds[cs].type == FD_CLIENT_NO_REGISTER)

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 17:42:52 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/15 17:57:00 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/17 01:50:12 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ char		*protocol_to_string(t_protocol msg)
 	int		i;
 	char	*str;
 
-	str = (char *)Xv(NULL, malloc(BUF_SIZE), "malloc");
-	ft_bzero(str, BUF_SIZE);
+	str = ft_memalloc(BUF_SIZE);
 	if (msg.prefix)
 		ft_strcat(str, ":");
 	ft_strcat(str, msg.prefix);
@@ -63,6 +62,27 @@ void	print_protocol(t_protocol msg)
 
 /*protocol_to_str*/
 
+void		free_protocol(t_protocol msg)
+{
+	int	i;
+
+	i = 0;
+	if (msg.prefix)
+		free(msg.prefix);
+	if (msg.command)
+		free(msg.command);
+	if (msg.params)
+	{
+		while (msg.params[i])
+		{
+			free(msg.params[i]);
+			i++;
+		}
+		free(msg.params);
+	}
+	if (msg.trailer)
+		free(msg.trailer);
+}
 
 t_protocol	fill_protocol(char *prefix, char *cmd, char **params, char *trailer)
 {

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/26 15:43:13 by scaussin          #+#    #+#             */
-/*   Updated: 2013/12/02 10:46:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/18 00:21:33 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char		*ft_itoa(int n)
 	int		size;
 
 	size = ft_lenstr(n);
-	str = (char *)malloc((sizeof(char) * size) + 1);
+	str = (char *)malloc(sizeof(char) * (size + 1));
 	if (str == NULL)
 		return (NULL);
 	ft_strclr(str);

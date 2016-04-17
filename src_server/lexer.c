@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 17:48:02 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/15 19:18:48 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/15 23:12:07 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		lexer(t_protocol *msg, t_ring_buf *buf)
 	if (extract_prefix(&(msg->prefix), &line) == -1
 		|| extract_command(&(msg->command), &line) == -1)
 	{
-		free(line);
+		free(tmp);
 		return (-1);
 	}
 	extract_trailer(&(msg->trailer), &line);

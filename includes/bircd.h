@@ -12,8 +12,9 @@
 
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
-# define NAME_SIZE				9
-# define SIZE_PTR_FUNC			5
+# define SIZE_PTR_FUNC			7
+# define MAX_CMD_PARAMS			15
+# define MAX_LEN_NICK			9
 
 # define END					"\r\n"
 # define NAME_SERVER			"irc_scaussin"
@@ -66,8 +67,9 @@ typedef struct	s_fd
 {
 	int			type;
 	char		*name;
-	char		*nick;
-	char		chan[NAME_SIZE + 1];
+	char		nick[MAX_LEN_NICK + 1];
+	char		*chan;
+	char		*host;
 	void		(*fct_read)();
 	void		(*fct_write)();
 	t_ring_buf	buf_read;
@@ -125,6 +127,7 @@ char	*read_buf(t_ring_buf buf);
 void	client_write(t_env *e, int cs);
 void	send_str_to_client(t_fd *client, char *str);
 void	send_protocol_to_client(t_fd *client, t_protocol msg);
+void	send_protocol_to_chan(t_env *e, t_protocol msg, int cs);
 
 /*
 ** lexer.c
@@ -147,17 +150,38 @@ void	parser(t_env *e, int cs, t_protocol msg);
 void	print_protocol(t_protocol msg);
 char	*protocol_to_string(t_protocol msg);
 t_protocol	fill_protocol(char *prefix, char *cmd, char **params, char *trailer);
+void		free_protocol(t_protocol msg);
 
 /*
 ** cmd.c
 */
-void	init_ptr_func(t_ptr_func *ptr_func);
 void	cmd_unknown(t_env *e, int cs, t_protocol msg);
 void	cmd_privmsg(t_env *e, int cs, t_protocol msg);
 void	cmd_user(t_env *e, int cs, t_protocol msg);
-void	cmd_nick(t_env *e, int cs, t_protocol msg);
 void	cmd_ping(t_env *e, int cs, t_protocol msg);
 void	register_client(t_fd *client);
 void	cmd_away(t_env *e, int cs, t_protocol msg);
+void	cmd_names(t_env *e, int cs, t_protocol msg);
+
+/*
+** cmd_tools.c
+*/
+void	init_ptr_func(t_ptr_func *ptr_func);
+void	free_params(char **params);
+char	**malloc_params(int size);
+char	*gen_prefix(t_fd client);
+
+/*
+** cmd_nick.c
+*/
+int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick);
+void	cmd_nick(t_env *e, int cs, t_protocol msg);
+int		check_nick_in_use(t_env *e, int cs, char *new_nick);
+
+/*
+** cmd_join.c
+*/
+void	cmd_join(t_env *e, int cs, t_protocol msg);
+int		check_error_join(t_env *e, int cs, char **params);
 
 #endif /* !BIRCD_H_ */
