@@ -17,36 +17,10 @@ void	client_read(t_env *e, int cs)
 	{
 		while (lexer(&msg, &(e->fds[cs].buf_read)) == 1)
 		{
-
 			parser(e, cs, msg);
 			free_protocol(msg);
-			/*print_protocol(msg);
-			ft_printf("msg: %s", protocol_to_string(msg));
-			if (e->fds[cs].type == FD_CLIENT_NO_REGISTER)
-				register_client(&e->fds[cs], msg);
-			else
-				send_str_to_client(&e->fds[cs], ":serv_IRC PRIVMSG scaussin :bonjour\r\n");*/
 		}
 	}
-	/*if (r <= 0)
-	{
-		close(cs);
-		clean_fd(&e->fds[cs]);
-		printf("client #%d gone away\n", cs);
-		write_log(SUCCES_CLIENT_DISCONNECTED);
-	}
-	else
-	{
-		i = 0;
-		while (i < e->maxfd)
-		{
-			if (e->fds[i].type == FD_CLIENT_REGISTER && i != cs)
-				write_buf(&(e->fds[i].buf_write),
-					read_buf(e->fds[cs].buf_read), e->fds[cs].buf_read.len);//free
-			i++;
-		}
-		e->fds[cs].buf_read.len = 0;
-	}*/
 }
 
 void	close_connection(t_env *e, int cs)
@@ -55,7 +29,16 @@ void	close_connection(t_env *e, int cs)
 		write_log(SUCCES_CLIENT_DISCONNECTED);
 	else
 		write_log(WARNING_CLIENT_LOST);
-	FD_CLR(cs, &e->fd_write);
+	if (FD_ISSET(cs, &e->fd_write))
+	{
+		FD_CLR(cs, &e->fd_write);
+		e->r--;
+	}
+	if (FD_ISSET(cs, &e->fd_read))
+	{
+		FD_CLR(cs, &e->fd_read);
+		e->r--;
+	}
 	close(cs);
 	clean_fd(&e->fds[cs]);
 }

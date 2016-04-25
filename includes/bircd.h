@@ -12,7 +12,7 @@
 
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
-# define SIZE_PTR_FUNC			7
+# define SIZE_PTR_FUNC			10
 # define MAX_CMD_PARAMS			15
 # define MAX_LEN_NICK			9
 
@@ -111,6 +111,7 @@ void	*x_void(void *err, void *res, char *str, char *file, int line);
 int		x_int(int err, int res, char *str, char *file, int line);
 void	print_buf(t_ring_buf buf);
 void	write_log(e_error_code error);
+int		str_equal(char *s1, char *s2);
 
 /*
 ** client_read.c
@@ -127,7 +128,7 @@ char	*read_buf(t_ring_buf buf);
 void	client_write(t_env *e, int cs);
 void	send_str_to_client(t_fd *client, char *str);
 void	send_protocol_to_client(t_fd *client, t_protocol msg);
-void	send_protocol_to_chan(t_env *e, t_protocol msg, int cs);
+void	send_protocol_to_chan(t_env *e, int cs, t_protocol msg);
 
 /*
 ** lexer.c
@@ -159,9 +160,14 @@ void	cmd_unknown(t_env *e, int cs, t_protocol msg);
 void	cmd_privmsg(t_env *e, int cs, t_protocol msg);
 void	cmd_user(t_env *e, int cs, t_protocol msg);
 void	cmd_ping(t_env *e, int cs, t_protocol msg);
-void	register_client(t_fd *client);
 void	cmd_away(t_env *e, int cs, t_protocol msg);
 void	cmd_names(t_env *e, int cs, t_protocol msg);
+t_fd	**get_clients_on_chan(t_env *e, char *chan);
+void	send_lst_names(t_env *e, int cs, t_fd **clients_on_chan);
+void	cmd_users(t_env *e, int cs, t_protocol msg);
+void	cmd_who(t_env *e, int cs, t_protocol msg);
+void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan);
+void	cmd_part(t_env *e, int cs, t_protocol msg);
 
 /*
 ** cmd_tools.c
@@ -177,6 +183,7 @@ char	*gen_prefix(t_fd client);
 int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick);
 void	cmd_nick(t_env *e, int cs, t_protocol msg);
 int		check_nick_in_use(t_env *e, int cs, char *new_nick);
+void	register_client(t_fd *client);
 
 /*
 ** cmd_join.c

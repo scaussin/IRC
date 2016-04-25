@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 18:30:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/18 00:12:54 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/24 22:16:32 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,116 @@
 void	cmd_names(t_env *e, int cs, t_protocol msg)
 {
 	char	**params_end;
-	char	**params_list;
 
 	if (e->fds[cs].chan && msg.params && msg.params[0]
 		&& !ft_strcmp(msg.params[0], e->fds[cs].chan))
+		send_lst_names(e, cs, get_clients_on_chan(e, e->fds[cs].chan));
+	params_end = malloc_params(2);
+	ft_strcpy(params_end[0], e->fds[cs].nick);
+	ft_strcpy(params_end[1], msg.params[0]);
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+		"366", params_end, "End of /NAMES list."));
+	free_params(params_end);
+}
+
+void	cmd_users(t_env *e, int cs, t_protocol msg)
+{
+	msg = *(&msg);
+	send_protocol_to_client(&e->fds[cs], 
+		fill_protocol(NAME_SERVER, "446", NULL,
+			"cmd USERS disabled"));
+}
+
+void	cmd_who(t_env *e, int cs, t_protocol msg)
+{
+	char	**params_end;
+
+	if (e->fds[cs].chan && msg.params
+		&& str_equal(msg.params[0], e->fds[cs].chan))
 	{
-		params_list = malloc_params(3);
-		ft_strcpy(params_list[0], e->fds[cs].nick);
-		ft_strcpy(params_list[1], "=");
-		ft_strcpy(params_list[2], e->fds[cs].chan);
-		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
-			"353", params_list, "scaussin"));
-		free_params(params_list);
+		send_lst_who(e, cs, get_clients_on_chan(e, e->fds[cs].chan));
 	}
 	params_end = malloc_params(2);
 	ft_strcpy(params_end[0], e->fds[cs].nick);
 	ft_strcpy(params_end[1], e->fds[cs].chan);
 	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
-		"366", params_end, "End of /NAMES list."));
+		"315", params_end, "End of /WHO list."));
 	free_params(params_end);
+}
+
+void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan)
+{
+	int		i;
+	char	**params_list;
+	char	*trailer;
+
+	i = 0;
+	params_list = malloc_params(7);
+	ft_strcpy(params_list[0], e->fds[cs].nick);
+	ft_strcpy(params_list[1], e->fds[cs].chan);
+	while (clients_on_chan && clients_on_chan[i])
+	{
+		ft_strcpy(params_list[2], clients_on_chan[i]->name);
+		ft_strcpy(params_list[3], clients_on_chan[i]->host);
+		ft_strcpy(params_list[4], NAME_SERVER);
+		ft_strcpy(params_list[5], clients_on_chan[i]->nick);
+		ft_strcpy(params_list[6], "H@");
+		trailer = (char *)Xv(NULL, malloc(ft_strlen(clients_on_chan[i]->name + 3)), "malloc");
+		ft_strcpy(trailer, "0 ");
+		ft_strcat(trailer, clients_on_chan[i]->name);
+		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"352", params_list, clients_on_chan[i]->nick));
+		free(trailer);
+		i++;
+	}
+	free_params(params_list);
+	if (clients_on_chan)
+		free(clients_on_chan);
+}
+
+void	send_lst_names(t_env *e, int cs, t_fd **clients_on_chan)
+{
+	int		i;
+	char	**params_list;
+
+	i = 0;
+	params_list = malloc_params(3);
+	ft_strcpy(params_list[0], e->fds[cs].nick);
+	ft_strcpy(params_list[1], "=");
+	ft_strcpy(params_list[2], e->fds[cs].chan);
+	while (clients_on_chan && clients_on_chan[i])
+	{
+		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"353", params_list, clients_on_chan[i]->nick));
+		i++;
+	}
+	free_params(params_list);
+	if (clients_on_chan)
+		free(clients_on_chan);
+}
+
+t_fd	**get_clients_on_chan(t_env *e, char *chan)
+{
+	int		i;
+	int		j;
+	t_fd	**lst_client;
+
+	i = 0;
+	j = 0;
+	lst_client = (t_fd **)Xv(NULL, malloc((e->max + 1) * sizeof(t_fd *)), 
+		"malloc");
+	ft_bzero(lst_client, (e->max + 1) * sizeof(t_fd *));
+	while (i <= e->max)
+	{
+		if (str_equal(e->fds[i].chan, chan)
+			&& e->fds[i].type == FD_CLIENT_REGISTER)
+		{
+			lst_client[j] = &(e->fds[i]);
+			j++;
+		}
+		i++;
+	}
+	return (lst_client);
 }
 
 void	cmd_unknown(t_env *e, int cs, t_protocol msg)
@@ -54,7 +145,7 @@ void	cmd_away(t_env *e, int cs, t_protocol msg)/**/
 	char	*str;
 
 	msg = *(&msg);
-	str = ft_strjoin(":irc_scaussin 305 ", e->fds[cs].nick);
+	str = ft_strjoin(":irc_scaussin 305 ", e->fds[cs].nick);/*server name*/
 	tmp = str;
 	str = ft_strjoin(str, " :You are no longer marked as being away\r\n");
 	free(tmp);
@@ -79,7 +170,7 @@ void	cmd_user(t_env *e, int cs, t_protocol msg)
 {
 	if (e->fds[cs].name)
 		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
-			"ERR_ALREADYREGISTRED", NULL, "Your are already registred"));
+			"462", NULL, "Your are already registred"));
 	else if (msg.params && msg.params[0] && msg.params[0][0])
 	{
 		e->fds[cs].name = ft_strdup(msg.params[0]);
@@ -88,9 +179,10 @@ void	cmd_user(t_env *e, int cs, t_protocol msg)
 	else
 	{
 		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
-			"ERR_NEEDMOREPARAMS", NULL, "need username"));
+			"461", NULL, "need username"));
 	}
 }
+
 
 void	cmd_ping(t_env *e, int cs, t_protocol msg)
 {
@@ -103,15 +195,4 @@ void	cmd_ping(t_env *e, int cs, t_protocol msg)
 	free(tmp);
 	send_str_to_client(&e->fds[cs], str);
 	free(str);
-}
-
-void	register_client(t_fd *client)
-{
-	if (client->type == FD_CLIENT_NO_REGISTER && client->name && client->nick[0])
-	{
-		ft_printf("Client [%s] accepted\n", client->nick);
-		//send_str_to_client(client, ":127.0.0.1 001 scaussin :Welcome\r\n:127.0.0.1 002 scaussin :Your host is irc_scaussin, running version 1\r\n:127.0.0.1 003 scaussin :This server was created\r\n:127.0.0.1 004 scaussin irc_scaussin\r\n:127.0.0.1 005 scaussin irc_scaussin\r\n:127.0.0.1 005 scaussin irc_scaussin\r\n:127.0.0.1 NOTICE scaussin :Bonjour\r\n");
-		send_str_to_client(client, ":irc_scaussin 001 scaussin :Welcome to the QuakeNet IRC Network, scaussin\r\n:irc_scaussin 002 scaussin :Your host is euroserv.fr.quakenet.org, running version u2.10.12.10+snircd(1.3.4a)\r\n:irc_scaussin 003 scaussin :This server was created Tue Nov 18 2014 at 18:46:36 CET\r\n:irc_scaussin 004 scaussin euroserv.fr.quakenet.org u2.10.12.10+snircd(1.3.4a) dioswkgxRXInP biklmnopstvrDcCNuMT bklov\r\n:irc_scaussin 005 scaussin WHOX WALLCHOPS WALLVOICES USERIP CPRIVMSG CNOTICE SILENCE=15 MODES=6 MAXCHANNELS=20 MAXBANS=45 NICKLEN=15 :are supported by this server\r\n:irc_scaussin 005 scaussin MAXNICKLEN=15 TOPICLEN=250 AWAYLEN=160 KICKLEN=250 CHANNELLEN=200 MAXCHANNELLEN=200 CHANTYPES=#& PREFIX=(ov)@+ STATUSMSG=@+ CHANMODES=b,k,l,imnpstrDducCNMT CASEMAPPING=rfc1459 NETWORK=QuakeNet :are supported by this server\r\n:irc_scaussin 251 scaussin :There are 22 users and 31421 invisible on 47 servers\r\n:irc_scaussin 252 scaussin 69 :operator(s) online\r\n:irc_scaussin NOTICE scaussin :on 1 ca 1(4) ft 20(20)\r\n");
-		client->type = FD_CLIENT_REGISTER;
-	}
 }

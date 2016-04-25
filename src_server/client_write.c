@@ -11,7 +11,7 @@ void	client_write(t_env *e, int cs)
 	data = read_buf(e->fds[cs].buf_write);
 	while (1)
 	{
-		ret_send = send(cs, data, e->fds[cs].buf_write.len, 0);
+		ret_send = send(cs, data, e->fds[cs].buf_write.len, MSG_DONTWAIT);
 		if (ret_send == -1 && (errno == EAGAIN || errno == EINTR))
 			continue;
 		else
@@ -41,7 +41,7 @@ void	send_protocol_to_client(t_fd *client, t_protocol msg)
 	free(str);
 }
 
-void	send_protocol_to_chan(t_env *e, t_protocol msg, int cs)
+void	send_protocol_to_chan(t_env *e, int cs, t_protocol msg)
 {
 	char	*str;
 	int		i;
@@ -52,10 +52,10 @@ void	send_protocol_to_chan(t_env *e, t_protocol msg, int cs)
 		write_buf(&e->fds[cs].buf_write, str, ft_strlen(str));
 	else
 	{
-		while (i < e->maxfd)
+		while (i <= e->max)/*max*/
 		{
 			if (e->fds[i].type == FD_CLIENT_REGISTER
-				&& !ft_strcmp(e->fds[i].chan, e->fds[cs].chan))
+				&& str_equal(e->fds[i].chan, e->fds[cs].chan))
 				write_buf(&e->fds[i].buf_write, str, ft_strlen(str));
 			i++;
 		}

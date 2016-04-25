@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/04/18 00:17:56 by scaussin         ###   ########.fr        #
+#    Updated: 2016/04/25 22:51:26 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ OBJ1 =			$(SRC1:.c=.o)
 
 OBJ2 =			$(SRC2:.c=.o)
 
-FLAGS =			-Wall -Wextra -Werror
+FLAGS =			-Wall -Wextra -Werror -g
 
 all:			$(NAME1) $(NAME2)
 

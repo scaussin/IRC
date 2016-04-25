@@ -4,8 +4,8 @@
 void	check_fd(t_env *e)
 {
 	int	i;
-
 	i = 0;
+
 	while ((i < e->maxfd) && (e->r > 0))
 	{
 		if (FD_ISSET(i, &e->fd_read))

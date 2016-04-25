@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:27:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/15 17:10:59 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/04/22 19:05:08 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,9 @@ int		main(int ac, char **av)
 	t_env	e;
 
 	init_env(&e);
-	
 	get_opt(&e, ac, av);
 	srv_create(&e, e.port);
 	main_loop(&e);
-
-	/*test*/
-	/*
-	//buf.start = 6;
-	print_buf(buf);
-	print_buf(buf);
-	write_buf(&buf, "1234", 4);
-	print_buf(buf);*/
 	return (0);
 }
 
@@ -55,6 +46,7 @@ void	init_env(t_env *e)
 	X(-1, getrlimit(RLIMIT_NOFILE, &rlp), "getrlimit");
 	e->maxfd = rlp.rlim_cur;
 	e->fds = (t_fd*)Xv(NULL, malloc(sizeof(*e->fds) * e->maxfd), "malloc");
+	ft_bzero(e->fds, sizeof(*e->fds) * e->maxfd);
 	e->ptr_func = (t_ptr_func*)Xv(NULL, malloc(sizeof(*e->ptr_func) * SIZE_PTR_FUNC), "malloc");
 	init_ptr_func(e->ptr_func);
 	i = 0;
