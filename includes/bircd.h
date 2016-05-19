@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bircd.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/24 23:43:00 by scaussin          #+#    #+#             */
+/*   Updated: 2016/05/19 18:02:11 by scaussin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BIRCD_H_
 # define BIRCD_H_
 
@@ -12,7 +24,7 @@
 
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
-# define SIZE_PTR_FUNC			10
+# define SIZE_PTR_FUNC			13
 # define MAX_CMD_PARAMS			15
 # define MAX_LEN_NICK			9
 
@@ -129,6 +141,7 @@ void	client_write(t_env *e, int cs);
 void	send_str_to_client(t_fd *client, char *str);
 void	send_protocol_to_client(t_fd *client, t_protocol msg);
 void	send_protocol_to_chan(t_env *e, int cs, t_protocol msg);
+void	send_to_chan_exept_sender(t_env *e, int cs, t_protocol msg);
 
 /*
 ** lexer.c
@@ -157,7 +170,6 @@ void		free_protocol(t_protocol msg);
 ** cmd.c
 */
 void	cmd_unknown(t_env *e, int cs, t_protocol msg);
-void	cmd_privmsg(t_env *e, int cs, t_protocol msg);
 void	cmd_user(t_env *e, int cs, t_protocol msg);
 void	cmd_ping(t_env *e, int cs, t_protocol msg);
 void	cmd_away(t_env *e, int cs, t_protocol msg);
@@ -168,6 +180,7 @@ void	cmd_users(t_env *e, int cs, t_protocol msg);
 void	cmd_who(t_env *e, int cs, t_protocol msg);
 void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan);
 void	cmd_part(t_env *e, int cs, t_protocol msg);
+void	cmd_quit(t_env *e, int cs, t_protocol msg);
 
 /*
 ** cmd_tools.c
@@ -177,6 +190,15 @@ void	free_params(char **params);
 char	**malloc_params(int size);
 char	*gen_prefix(t_fd client);
 
+
+/*
+** cmd_privmsg.c
+*/
+void	cmd_privmsg(t_env *e, int cs, t_protocol msg);
+int		privmsg_to_client(t_env *e, int cs, char *nick_dest, char *msg_to_send);
+t_fd	*get_client_by_nick(t_env *e, int cs, char *nick);
+void	privmsg_to_chan(t_env *e, int cs, char **chan_dest, char *msg_to_send);
+
 /*
 ** cmd_nick.c
 */
@@ -184,6 +206,7 @@ int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick);
 void	cmd_nick(t_env *e, int cs, t_protocol msg);
 int		check_nick_in_use(t_env *e, int cs, char *new_nick);
 void	register_client(t_fd *client);
+int		str_isalnum(char *str);
 
 /*
 ** cmd_join.c

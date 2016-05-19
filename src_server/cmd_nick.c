@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:06:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/25 00:18:06 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/19 19:16:59 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,20 @@ void	cmd_nick(t_env *e, int cs, t_protocol msg)
 		}
 		ft_strcpy(e->fds[cs].nick, new_nick);
 		register_client(&e->fds[cs]);
-	}		
+	}
 }
 
 int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick)
 {
-	if ((msg.params && (*new_nick = msg.params[0]) && msg.params[0][0]) 
-		|| (*new_nick = msg.trailer))
+	if ((msg.params && (*new_nick = msg.params[0]) && msg.params[0][0])
+		|| ((*new_nick = msg.trailer) && msg.trailer && msg.trailer[0]))
 	{
+		if (str_isalnum(*new_nick) == -1)
+		{
+			send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
+			"432", NULL, "use alpaha numeric characters : [A-Z][a-z][0-9]"));
+			return (-1);
+		}
 		if (ft_strlen(*new_nick) <= MAX_LEN_NICK)
 			return (check_nick_in_use(e, cs, *new_nick));
 		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
@@ -48,6 +54,20 @@ int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick)
 			"431", NULL, "No nickname given."));
 		return (-1);
 	}
+}
+
+int		str_isalnum(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (!ft_isalnum(str[i]))
+			return (-1);
+		i++;
+	}
+	return (1);
 }
 
 int		check_nick_in_use(t_env *e, int cs, char *new_nick)

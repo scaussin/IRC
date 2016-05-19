@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/04/25 22:51:26 by scaussin         ###   ########.fr        #
+#    Updated: 2016/05/18 20:36:13 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC1 =			src_server/check_fd.c \
 				src_server/cmd_tools.c \
 				src_server/cmd_nick.c \
 				src_server/cmd_join.c \
+				src_server/cmd_privmsg.c \
 				src_server/x.c
 
 SRC2 =			src_client/main.c

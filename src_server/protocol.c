@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 17:42:52 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/17 01:50:12 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/19 19:17:05 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	print_protocol(t_protocol msg)
 	}
 	ft_printf("trailer: |%s|\n", msg.trailer);
 }
-
-/*protocol_to_str*/
 
 void		free_protocol(t_protocol msg)
 {

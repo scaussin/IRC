@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_write.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/27 10:44:23 by scaussin          #+#    #+#             */
+/*   Updated: 2016/05/19 18:01:42 by scaussin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <sys/socket.h>
 #include "bircd.h"
@@ -15,7 +27,11 @@ void	client_write(t_env *e, int cs)
 		if (ret_send == -1 && (errno == EAGAIN || errno == EINTR))
 			continue;
 		else
+		{
+			ft_printf("=> ");
+			write(1, data, e->fds[cs].buf_write.len);
 			break;
+		}
 	}
 	free(data);
 	if (ret_send == -1)
@@ -52,10 +68,32 @@ void	send_protocol_to_chan(t_env *e, int cs, t_protocol msg)
 		write_buf(&e->fds[cs].buf_write, str, ft_strlen(str));
 	else
 	{
-		while (i <= e->max)/*max*/
+		while (i <= e->max)
 		{
 			if (e->fds[i].type == FD_CLIENT_REGISTER
 				&& str_equal(e->fds[i].chan, e->fds[cs].chan))
+				write_buf(&e->fds[i].buf_write, str, ft_strlen(str));
+			i++;
+		}
+	}
+	free(str);
+}
+
+void	send_to_chan_exept_sender(t_env *e, int cs, t_protocol msg)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = protocol_to_string(msg);
+	if (!e->fds[cs].chan)
+		write_buf(&e->fds[cs].buf_write, str, ft_strlen(str));
+	else
+	{
+		while (i <= e->max)
+		{
+			if (e->fds[i].type == FD_CLIENT_REGISTER
+				&& str_equal(e->fds[i].chan, e->fds[cs].chan) && i != cs)
 				write_buf(&e->fds[i].buf_write, str, ft_strlen(str));
 			i++;
 		}

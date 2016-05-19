@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_read.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/27 11:14:42 by scaussin          #+#    #+#             */
+/*   Updated: 2016/05/18 16:16:50 by scaussin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
@@ -25,18 +36,27 @@ void	client_read(t_env *e, int cs)
 
 void	close_connection(t_env *e, int cs)
 {
+	char	*tmp_prefix;
+
 	if (e->fds[cs].type == FD_CLIENT_CLOSE)
+	{
+		tmp_prefix = gen_prefix(e->fds[cs]);
+		send_protocol_to_chan(e, cs, fill_protocol(tmp_prefix,
+		"QUIT", NULL, "Disconnected"));
+		free(tmp_prefix);
 		write_log(SUCCES_CLIENT_DISCONNECTED);
+	}
 	else
+	{
+		tmp_prefix = gen_prefix(e->fds[cs]);
+		send_protocol_to_chan(e, cs, fill_protocol(tmp_prefix,
+		"QUIT", NULL, "Connection lost"));
+		free(tmp_prefix);
 		write_log(WARNING_CLIENT_LOST);
+	}
 	if (FD_ISSET(cs, &e->fd_write))
 	{
-		FD_CLR(cs, &e->fd_write);
-		e->r--;
-	}
-	if (FD_ISSET(cs, &e->fd_read))
-	{
-		FD_CLR(cs, &e->fd_read);
+		FD_ZERO(&e->fd_write);
 		e->r--;
 	}
 	close(cs);

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:10:04 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/24 23:42:47 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/18 18:51:26 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	init_ptr_func(t_ptr_func *ptr_func)
 	ptr_func[8].func = cmd_users;
 	ptr_func[9].name = "PART";
 	ptr_func[9].func = cmd_part;
+	ptr_func[10].name = "QUIT";
+	ptr_func[10].func = cmd_quit;
+	ptr_func[11].name = "leave";
+	ptr_func[11].func = cmd_part;
+	ptr_func[12].name = "who";
+	ptr_func[12].func = cmd_names;
 }
 
 char	*gen_prefix(t_fd client)

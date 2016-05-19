@@ -6,22 +6,30 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 18:30:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/24 22:16:32 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/18 20:36:19 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bircd.h"
 
+void	cmd_quit(t_env *e, int cs, t_protocol msg)
+{
+	msg = *(&msg);
+	e->fds[cs].type = FD_CLIENT_CLOSE;
+}
+
 void	cmd_names(t_env *e, int cs, t_protocol msg)
 {
 	char	**params_end;
 
-	if (e->fds[cs].chan && msg.params && msg.params[0]
-		&& !ft_strcmp(msg.params[0], e->fds[cs].chan))
-		send_lst_names(e, cs, get_clients_on_chan(e, e->fds[cs].chan));
+	msg = *(&msg);
 	params_end = malloc_params(2);
 	ft_strcpy(params_end[0], e->fds[cs].nick);
-	ft_strcpy(params_end[1], msg.params[0]);
+	if (e->fds[cs].chan)
+	{
+		send_lst_names(e, cs, get_clients_on_chan(e, e->fds[cs].chan));
+		ft_strcpy(params_end[1], e->fds[cs].chan);
+	}
 	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
 		"366", params_end, "End of /NAMES list."));
 	free_params(params_end);
@@ -30,7 +38,7 @@ void	cmd_names(t_env *e, int cs, t_protocol msg)
 void	cmd_users(t_env *e, int cs, t_protocol msg)
 {
 	msg = *(&msg);
-	send_protocol_to_client(&e->fds[cs], 
+	send_protocol_to_client(&e->fds[cs],
 		fill_protocol(NAME_SERVER, "446", NULL,
 			"cmd USERS disabled"));
 }
@@ -111,7 +119,7 @@ t_fd	**get_clients_on_chan(t_env *e, char *chan)
 
 	i = 0;
 	j = 0;
-	lst_client = (t_fd **)Xv(NULL, malloc((e->max + 1) * sizeof(t_fd *)), 
+	lst_client = (t_fd **)Xv(NULL, malloc((e->max + 1) * sizeof(t_fd *)),
 		"malloc");
 	ft_bzero(lst_client, (e->max + 1) * sizeof(t_fd *));
 	while (i <= e->max)
@@ -153,18 +161,6 @@ void	cmd_away(t_env *e, int cs, t_protocol msg)/**/
 	free(str);
 }
 
-void	cmd_privmsg(t_env *e, int cs, t_protocol msg)
-{
-	char	*tmp;
-	char	*str;
-
-	str = ft_strjoin(":irc_scaussin PRIVMSG scaussin :", msg.trailer);
-	tmp = str;
-	str = ft_strjoin(str, "\r\n");
-	free(tmp);
-	send_str_to_client(&e->fds[cs], str);
-	free(str);
-}
 
 void	cmd_user(t_env *e, int cs, t_protocol msg)
 {
