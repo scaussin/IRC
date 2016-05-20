@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 20:34:56 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/19 18:47:51 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/20 13:21:49 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	cmd_privmsg(t_env *e, int cs, t_protocol msg)
 	{
 		if (e->fds[cs].chan)
 		{
+			ft_printf("chan :|%s|\n",e->fds[cs].chan);
 			if (msg.params[0][0] == '#')
 				privmsg_to_chan(e, cs, msg.params, msg.trailer);
 			else

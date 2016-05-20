@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 17:48:02 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/15 23:12:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/20 12:23:06 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		check_error(char *line, char **end, t_ring_buf *buf)
 	if ((*end = ft_strstr(line, END)) == 0)
 	{
 		write_log(WARNING_MSG_IRC_NOT_ENDING);
-		buf->len = 0;
+		//buf->len = 0;
 		free(line);
 		return (0);
 	}
