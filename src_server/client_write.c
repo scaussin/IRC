@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 10:44:23 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/19 18:01:42 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/21 20:55:59 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	client_write(t_env *e, int cs)
 			continue;
 		else
 		{
-			ft_printf("=> ");
+			ft_printf("out => ");
 			write(1, data, e->fds[cs].buf_write.len);
 			break;
 		}

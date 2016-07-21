@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_server.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/06 17:48:02 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/28 01:24:07 by scaussin         ###   ########.fr       */
+/*   Created: 2016/05/28 01:23:05 by scaussin          #+#    #+#             */
+/*   Updated: 2016/05/28 01:37:59 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bircd.h"
+#include "client_irc.h"
 
-int		lexer(t_protocol *msg, t_ring_buf *buf)
+int		lexer_server(t_protocol *msg, t_ring_buf *buf)
 {
 	char	*end;
 	char	*line;
@@ -46,14 +46,13 @@ int		check_error(char *line, char **end, t_ring_buf *buf)
 		return (0);
 	if ((*end = ft_strstr(line, END)) == 0)
 	{
-		write_log(WARNING_MSG_IRC_NOT_ENDING);
-		//buf->len = 0;
+		write_log("warning", "msg not ending");
 		free(line);
 		return (0);
 	}
 	if (*end - line + 2 > MAX_SIZE_MSG_IRC)
 	{
-		write_log(WARNING_MSG_IRC_TOO_LONG);
+		write_log("warning", "msg too long");
 		buf->len = 0;
 		free(line);
 		return (0);
@@ -69,7 +68,7 @@ int		extract_prefix(char **prefix, char **msg)
 		return (0);
 	if ((end = ft_strstr(*msg, " ")) == 0)
 	{
-		write_log(WARNING_LEXER_NO_CMD);
+		write_log("warning", "lexer no cmd");
 		return (-1);
 	}
 	*prefix = (char *)Xv(NULL, malloc(end - *msg + 1), "malloc");
@@ -87,7 +86,7 @@ int		extract_command(char **command, char **msg)
 		*msg += 1;
 	if (!msg || !*msg || !**msg)
 	{
-		write_log(WARNING_LEXER_NO_CMD);
+		write_log("warning", "lexer no cmd");
 		return (-1);
 	}
 	if (!(end = ft_strstr(*msg, " ")))

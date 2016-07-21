@@ -6,14 +6,13 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 23:43:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/20 12:49:28 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:55:40 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BIRCD_H_
 # define BIRCD_H_
 
-# include <sys/select.h>
 # include "libft.h"
 
 # define FD_FREE				0
@@ -112,6 +111,10 @@ void	main_loop(t_env *e);
 void	srv_create(t_env *e, int port);
 void	srv_accept(t_env *e, int s);
 void	clean_fd(t_fd *fd);
+
+/*
+** select.c
+*/
 void	init_fd(t_env *e);
 void	do_select(t_env *e);
 void	check_fd(t_env *e);

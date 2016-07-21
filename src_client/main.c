@@ -6,49 +6,60 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:33:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/20 12:22:00 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/06/03 18:57:56 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/*#include <stdio.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include "client_irc.h"*/
+#include "client_irc.h"
 
-int main(/*int ac, char **av*/)
+int main(int ac, char **av)
 {
-/*	if (ac == 3)
-	{
+	t_client	e;
 
-	}*/
-	ft_printf("client\n");
+	init_client(&e);
+	if (ac == 3)
+		connect_to_srv(&e, av[1], ft_atoi(av[2]));
+	main_loop(&e);
 	return (0);
 }
-/*
 
-void			srv_accept(t_env *e, int s)
+void	main_loop(t_client *e)
 {
-	int					cs;
-	struct sockaddr_in	csin;
-	socklen_t			csin_len;
-	char				*tmp_port;
-
-	csin_len = sizeof(csin);
-	cs = X(-1, accept(s, (struct sockaddr*)&csin, &csin_len), "accept");
-	printf("New client #%d from %s:%d\n", cs,
-		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
-	clean_fd(&e->fds[cs]);
-	tmp_port = ft_itoa(ntohs(csin.sin_port));
-	e->fds[cs].host = (char *)Xv(NULL, malloc(ft_strlen(inet_ntoa(
-		csin.sin_addr)) + ft_strlen(tmp_port) + 2), "malloc");
-	ft_strcpy(e->fds[cs].host, inet_ntoa(csin.sin_addr));
-	ft_strcat(e->fds[cs].host, ":");
-	ft_strcat(e->fds[cs].host, tmp_port);
-	free(tmp_port);
-	e->fds[cs].type = FD_CLIENT_NO_REGISTER;
-	e->fds[cs].fct_read = client_read;
-	e->fds[cs].fct_write = client_write;
-	write_log(SUCCES_CLIENT_CONNECTED);
+	int i = 0;
+	while (i < 5)
+	{
+		init_fd(e);
+		do_select(e);
+		check_fd(e);
+		//i++;
+	}
 }
-*/
+
+void	init_client(t_client *e)
+{
+	bzero(e, sizeof(t_client));
+	e->socket = -1;
+	e->chan = NULL;
+	e->func_client = Xv(NULL,
+		malloc(NB_PTR_FUNC_CLIENT * sizeof(t_func_client)), "malloc");
+	init_ptr_func_client(e->func_client);
+	e->func_server = Xv(NULL,
+		malloc(NB_PTR_FUNC_SERVER * sizeof(t_func_server)), "malloc");
+	init_ptr_func_server(e->func_server);
+}
+
+void	init_ptr_func_client(t_func_client *func_client)
+{
+	func_client[0].name = "/msg";
+	func_client[0].func = send_cmd_msg;
+	func_client[1].name = "/leave";
+	func_client[1].func = cmd_leave_client;
+	func_client[2].name = "/connect";
+	func_client[2].func = NULL;
+}
+
+void	init_ptr_func_server(t_func_server *func_server)
+{
+	func_server[0].name = "PRIVMSG";
+	func_server[0].func = cmd_privmsg_server;
+}

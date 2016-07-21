@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 11:14:42 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/18 16:16:50 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/05/21 01:10:18 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		read_circular(t_ring_buf *buf_read, int cs)
 
 	size_read = BUF_SIZE - buf_read->len;
 	if (size_read == 0)
- 		write_log(ERROR_BUFFER_READ_FULL);
+		write_log(ERROR_BUFFER_READ_FULL);
 	buf_tmp = (char *)Xv(NULL, malloc(size_read), "malloc");
 	while (1)
 	{
