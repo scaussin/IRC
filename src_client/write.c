@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:28:50 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/28 01:50:46 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 22:10:28 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	send_server(t_ring_buf *buf, int cs)
 	if (ret_send == -1)
 		write_log("warning", "send");
 	update_offset_buf(buf, ret_send);
+
 }
 
 void	send_protocol_to_server(t_client *e, t_protocol msg)
@@ -50,6 +51,8 @@ void	send_protocol_to_server(t_client *e, t_protocol msg)
 void	write_server(t_client *e, int cs)
 {
 	send_server(&e->buf_write_server, cs);
+	if (e->leaving == 1)
+		close_connection(e);
 }
 
 void	write_client(t_client *e, int cs)

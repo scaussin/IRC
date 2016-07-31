@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:25:39 by scaussin          #+#    #+#             */
-/*   Updated: 2016/06/03 19:02:38 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 21:42:48 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	read_server(t_client *e, int cs)
 	t_protocol	msg;
 
 	if (read_circular(&e->buf_read_server, cs) <= 0)
-		write_log("warning", "socket closed");//TODO
-		//close_connection(e, cs);
+	{
+		if (e->leaving == 0)
+			write_log("warning", "socket closed");
+		close_connection(e);
+	}
 	else
 	{
 		while (lexer_server(&msg, &e->buf_read_server) == 1)
@@ -57,11 +60,6 @@ void	read_server(t_client *e, int cs)
 			free_protocol(msg);
 		}
 	}
-	/*read = read_buf(e->buf_read_server);
-	ft_printf("in <= %s", read);
-	e->buf_read_server.len = 0;*/
-	//write_buf(&e->buf_write_client, read, ft_strlen(read));
-	//free(read);
 }
 
 void	read_client(t_client *e, int cs)

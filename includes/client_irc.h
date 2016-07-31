@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:11:39 by scaussin          #+#    #+#             */
-/*   Updated: 2016/06/03 18:56:18 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 23:08:01 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define MAX_LEN_NICK			9
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
-# define NB_PTR_FUNC_CLIENT		3
-# define NB_PTR_FUNC_SERVER		1
+# define NB_PTR_FUNC_CLIENT		6
+# define NB_PTR_FUNC_SERVER		8
 
 
 # define Xv(err,res,str)	(x_void(err,res,str,__FILE__,__LINE__))
@@ -55,6 +55,7 @@ typedef struct	s_client
 	int			ret_select;
 	int			max_select;
 	int			socket;
+	char		leaving;
 	char		*host;
 	fd_set		fd_read;
 	fd_set		fd_write;
@@ -108,6 +109,7 @@ void	send_protocol_to_server(t_client *e, t_protocol msg);
 */
 int		connect_to_srv(t_client *e, char *addr, int port);
 void	auth_irc(t_client *e);
+void	close_connection(t_client *e);
 
 /*
 ** select.c
@@ -153,6 +155,10 @@ void	send_cmd_msg(t_client *e, t_parsing_client *msg);
 void	send_privmsg(t_client *e, char *to, char *msg);
 void	send_row_cmd_client(t_client *e, t_parsing_client *msg);
 void	cmd_leave_client(t_client *e, t_parsing_client *msg);
+void	send_cmd_who(t_client *e, t_parsing_client *msg);
+void	cmd_connect(t_client *e, t_parsing_client *msg);
+void	cmd_disconnect(t_client *e, t_parsing_client *msg);
+void	cmd_quit(t_client *e, t_parsing_client *msg);
 
 /*
 ** lexer_client.c
@@ -177,5 +183,14 @@ void	free_protocol(t_protocol msg);
 void	parsing_server(t_client *e, t_protocol *msg);
 void	cmd_server_unknown(t_protocol *msg);
 void	cmd_privmsg_server(t_client *e, t_protocol *msg);
+char	*extract_nick_prefix(char *prefix);
+char	*formate_origin_privmsg(t_protocol *msg);
+void	cmd_join_server(t_client *e, t_protocol *msg);
+void	cmd_part_server(t_client *e, t_protocol *msg);
+void	cmd_end_names_server(t_client *e, t_protocol *msg);
+void	cmd_names_server(t_client *e, t_protocol *msg);
+void	cmd_quit_server(t_client *e, t_protocol *msg);
+void	cmd_nick_server(t_client *e, t_protocol *msg);
+void	cmd_already_registered_server(t_client *e, t_protocol *msg);
 
 #endif /* !CLIENT_IRC_H_ */

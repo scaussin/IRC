@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:31:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/22 20:29:24 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 22:12:23 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,19 @@ void	auth_irc(t_client *e)
 	ft_strcpy(params[1], 0);
 	send_protocol_to_server(e, fill_protocol(NULL, "NICK", params, NULL));
 	free_params(params);
+}
+
+void	close_connection(t_client *e)
+{
+	e = e + 0;
+	/*
+	if (FD_ISSET(cs, &e->fd_write))
+	{
+		FD_ZERO(&e->fd_write);
+		e->r--;
+	}
+	*/
+	close(e->socket);
+	init_client(e);
+	ft_printf("\033[31m[quit]\033[0m You are disconnected\n");
 }

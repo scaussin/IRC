@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 18:30:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/18 20:36:19 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 14:12:24 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,12 @@ void	cmd_ping(t_env *e, int cs, t_protocol msg)
 	char	*tmp;
 	char	*str;
 
-	str = ft_strjoin("PONG :", msg.trailer);
+	if (msg.params && msg.params[0])
+		str = ft_strjoin("PONG :", msg.params[0]);
+	else
+		str = ft_strjoin("PONG :", "");
 	tmp = str;
-	str = ft_strjoin(str, "\r\n");/*timestamp*/
+	str = ft_strjoin(str, "\r\n");
 	free(tmp);
 	send_str_to_client(&e->fds[cs], str);
 	free(str);

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 16:50:48 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/26 00:15:36 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/07/31 23:01:05 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	*x_void(void *err, void *res, char *str, char *file, int line)
 
 void	write_log(char *type_error, char *msg)
 {
-	ft_printf("[%s] %s\n",type_error, msg);
+	if (!ft_strcmp(type_error, "warning"))
+		ft_printf("\033[33m[%s]\033[0m %s\n",type_error, msg);
+	else
+		ft_printf("[%s] %s\n",type_error, msg);
 	if (!ft_strcmp(type_error, "error"))
 		exit(-1);
 }
