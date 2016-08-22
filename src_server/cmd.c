@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 18:30:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 14:12:24 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/08/01 22:46:46 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ void	cmd_names(t_env *e, int cs, t_protocol msg)
 	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
 		"366", params_end, "End of /NAMES list."));
 	free_params(params_end);
+}
+
+void	cmd_list(t_env *e, int cs, t_protocol msg)
+{
+	char *(params[2]);
+
+	msg = *(&msg);
+
+	params[0] = malloc(100);
+	params[1] = NULL;
+	ft_strcpy(params[0], "Channels");
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "321", NULL, "Users Name"));
+	ft_strcpy(params[0], "#chan");
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "322", params, "topic"));
+	ft_strcpy(params[0], "#channnel");
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "322", params, NULL));
+
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "323", NULL, "info"));
+	//free()
 }
 
 void	cmd_users(t_env *e, int cs, t_protocol msg)

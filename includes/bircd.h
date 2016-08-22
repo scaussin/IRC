@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 23:43:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/22 00:55:40 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/08/01 22:37:13 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
-# define SIZE_PTR_FUNC			13
+# define SIZE_PTR_FUNC			14
 # define MAX_CMD_PARAMS			15
 # define MAX_LEN_NICK			9
 
@@ -184,6 +184,7 @@ void	cmd_who(t_env *e, int cs, t_protocol msg);
 void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan);
 void	cmd_part(t_env *e, int cs, t_protocol msg);
 void	cmd_quit(t_env *e, int cs, t_protocol msg);
+void	cmd_list(t_env *e, int cs, t_protocol msg);
 
 /*
 ** cmd_tools.c
