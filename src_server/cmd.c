@@ -44,14 +44,45 @@ void	cmd_list(t_env *e, int cs, t_protocol msg)
 	params[0] = malloc(100);
 	params[1] = NULL;
 	ft_strcpy(params[0], "Channels");
-	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "321", NULL, "Users Name"));
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "321", NULL, "start list"));
+
 	ft_strcpy(params[0], "#chan");
-	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "322", params, "topic"));
-	ft_strcpy(params[0], "#channnel");
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "322", params, NULL));
+	ft_strcpy(params[0], "#channel");
 	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "322", params, NULL));
 
-	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "323", NULL, "info"));
+	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER, "323", NULL, "end list"));
 	//free()
+}
+
+char	**get_chan_list(t_env *e)
+{
+	int		i;
+	char	**chan_list;
+
+	i = 0;
+	chan_list = (char **)Xv(NULL, malloc((e->max /*+ 1*/ * sizeof(char *))), "malloc");
+	ft_bzero(chan_list, e->max);
+	while (i < e->max)
+	{
+		if (e->fds[i].type == FD_CLIENT_REGISTER && !is_exist_in_array(chan_list, e->fds[i].chan))
+			chan_list[i] = ft_strdup(e->fds[i].chan);
+		i++;
+	}	
+}
+
+int		is_exist_in_array(char **array, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (i < ft_strlen_2d(array))
+	{
+		if (ft_strcmp(array[i], str) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
 void	cmd_users(t_env *e, int cs, t_protocol msg)

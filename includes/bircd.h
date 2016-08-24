@@ -194,7 +194,6 @@ void	free_params(char **params);
 char	**malloc_params(int size);
 char	*gen_prefix(t_fd client);
 
-
 /*
 ** cmd_privmsg.c
 */
