@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 20:20:04 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 23:18:35 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/08/31 16:09:15 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ void	cmd_disconnect(t_client *e, t_parsing_client *msg)
 
 void	cmd_quit(t_client *e, t_parsing_client *msg)
 {
+	ft_printf("cmd_quit\n");
 	msg = msg + 0;
 	send_protocol_to_server(e,
 		fill_protocol(NULL, "QUIT", NULL, NULL));
 	e->leaving = 1;
-	//close_connection(e);
 }
 
 void	cmd_connect(t_client *e, t_parsing_client *msg)
@@ -116,7 +116,11 @@ void	cmd_connect(t_client *e, t_parsing_client *msg)
 		if (ft_strlen_2d(split) == 2)
 		{
 			if (e->socket != -1)
-				cmd_quit(e, msg);
+			{
+				send_protocol_to_server(e,
+					fill_protocol(NULL, "QUIT", NULL, NULL));
+				close_connection(e);
+			}
 			init_client(e);
 			connect_to_srv(e, split[0], ft_atoi(split[1]));
 			return ;

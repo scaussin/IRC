@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/14 17:42:52 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/19 19:17:05 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/08/27 00:48:16 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		*protocol_to_string(t_protocol msg)
 	if (msg.params)
 		ft_strcat(str, " ");
 	i = 0;
-	while (msg.params && msg.params[i])
+	while (msg.params && msg.params[i] && msg.params[i][0])
 	{
 		ft_strcat(str, msg.params[i]);
 		if (msg.params[i + 1])

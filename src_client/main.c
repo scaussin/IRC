@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:33:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 23:07:02 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/03 20:48:56 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int main(int ac, char **av)
 
 void	main_loop(t_client *e)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (i < 5)
 	{
 		init_fd(e);
@@ -33,9 +35,6 @@ void	main_loop(t_client *e)
 		check_fd(e);
 		if (e->socket == -1)
 			ft_printf("usage : /connect <ip> <port>\n");
-		//if (e->leaving == 1)
-			//close_connection(e);
-		//i++;
 	}
 }
 
@@ -68,8 +67,6 @@ void	init_ptr_func_client(t_func_client *func_client)
 	func_client[4].func = cmd_quit;
 	func_client[5].name = "/who";
 	func_client[5].func = send_cmd_who;
-	//func_client[6].name = "/list";
-	//func_client[6].func = cmd_list;
 }
 
 void	init_ptr_func_server(t_func_server *func_server)
@@ -90,5 +87,11 @@ void	init_ptr_func_server(t_func_server *func_server)
 	func_server[6].func = cmd_nick_server;
 	func_server[7].name = "462";
 	func_server[7].func = cmd_already_registered_server;
+	func_server[8].name = "322";
+	func_server[8].func = cmd_list_server;
+	func_server[9].name = "321";
+	func_server[9].func = cmd_start_end_list_server;
+	func_server[10].name = "323";
+	func_server[10].func = cmd_start_end_list_server;
 
 }

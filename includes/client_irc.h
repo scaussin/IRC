@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:11:39 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 23:08:01 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/02 16:20:40 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define BUF_SIZE				4096
 # define MAX_SIZE_MSG_IRC		512
 # define NB_PTR_FUNC_CLIENT		6
-# define NB_PTR_FUNC_SERVER		8
+# define NB_PTR_FUNC_SERVER		11
 
 
 # define Xv(err,res,str)	(x_void(err,res,str,__FILE__,__LINE__))
@@ -192,5 +192,7 @@ void	cmd_names_server(t_client *e, t_protocol *msg);
 void	cmd_quit_server(t_client *e, t_protocol *msg);
 void	cmd_nick_server(t_client *e, t_protocol *msg);
 void	cmd_already_registered_server(t_client *e, t_protocol *msg);
+void	cmd_list_server(t_client *e, t_protocol *msg);
+void	cmd_start_end_list_server(t_client *e, t_protocol *msg);
 
 #endif /* !CLIENT_IRC_H_ */
