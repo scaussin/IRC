@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 18:24:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/02 16:42:19 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 13:49:21 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ void	cmd_quit_server(t_client *e, t_protocol *msg)
 	{
 		user = extract_nick_prefix(msg->prefix);
 		ft_printf("\033[31m[quit]\033[0m %s disconnected from server\n", user);
+		if (user)
+			free(user);
 	}
 }

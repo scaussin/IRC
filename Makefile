@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/08/26 15:51:42 by scaussin         ###   ########.fr        #
+#    Updated: 2016/09/21 11:59:47 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,32 +25,41 @@ INCLUDES =		-I./includes -I./libft/includes
 SRC1 =			src_server/clean_fd.c \
 				src_server/client_read.c \
 				src_server/client_write.c \
-				src_server/select.c \
-				src_server/main.c \
-				src_server/srv_accept.c \
+				src_server/cmd.c \
+				src_server/cmd_2.c \
+				src_server/cmd_join.c \
+				src_server/cmd_list.c \
+				src_server/cmd_nick.c \
+				src_server/cmd_privmsg.c \
+				src_server/cmd_who.c \
 				src_server/lexer.c \
+				src_server/main.c \
 				src_server/parser.c \
 				src_server/protocol.c \
-				src_server/cmd.c \
-				src_server/cmd_tools.c \
-				src_server/cmd_nick.c \
-				src_server/cmd_join.c \
-				src_server/cmd_privmsg.c \
-				src_server/cmd_list.c \
+				src_server/select.c \
+				src_server/srv_accept.c \
+				src_server/tools.c \
 				src_server/x.c
 
-SRC2 =			src_client/main.c \
-				src_client/read.c \
-				src_client/write.c \
+SRC2 =			src_client/buf.c \
 				src_client/connect.c \
-				src_client/select.c \
-				src_client/parsing_client.c \
 				src_client/lexer_client.c \
-				src_client/protocol.c \
-				src_client/buf.c \
-				src_client/parsing_server.c \
-				src_client/lexer_server.c \
-				src_client/tools.c
+				src_client/lexer_server_1.c \
+				src_client/lexer_server_2.c \
+				src_client/main.c \
+				src_client/parsing_client_1.c \
+				src_client/parsing_client_2.c \
+				src_client/parsing_client_3.c \
+				src_client/parsing_server_1.c \
+				src_client/parsing_server_2.c \
+				src_client/parsing_server_3.c \
+				src_client/protocol_1.c \
+				src_client/protocol_2.c \
+				src_client/read.c \
+				src_client/select.c \
+				src_client/tools_1.c \
+				src_client/tools_2.c \
+				src_client/write.c
 
 OBJ1 =			$(SRC1:.c=.o)
 

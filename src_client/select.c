@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:30:32 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/22 01:18:25 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 12:11:26 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	init_fd(t_client *e)
 {
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
-
 	FD_SET(0, &e->fd_read);
 	e->max_select = 0;
 	if (e->buf_write_client.len > 0)
@@ -38,7 +37,8 @@ void	init_fd(t_client *e)
 
 void	do_select(t_client *e)
 {
-	e->ret_select = select(e->max_select + 1, &e->fd_read, &e->fd_write, NULL, NULL);
+	e->ret_select = select(e->max_select + 1, &e->fd_read, &e->fd_write, NULL,
+		NULL);
 }
 
 void	check_fd(t_client *e)

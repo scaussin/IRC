@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:11:39 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/02 16:20:40 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 13:56:40 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	write_log(char *type_error, char *msg);
 int		str_isalnum(char *str);
 void	free_parsing_client(t_parsing_client *msg);
 int		str_equal(char *s1, char *s2);
+void	free_tab_2d(char **params);
 
 /*
 ** parsing_client.c

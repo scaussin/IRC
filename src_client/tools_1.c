@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   tools_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 16:50:48 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 23:01:05 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 09:52:41 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,27 +72,4 @@ void	free_parsing_client(t_parsing_client *msg)
 		free(msg->data);
 		msg->data = NULL;
 	}
-}
-
-int		str_equal(char *s1, char *s2)
-{
-	int		i;
-
-	i = 0;
-	if(s1 && s2)
-	{
-		while (s1[i] == s2[i])
-		{
-			if (s1[i] == 0)
-				return (1);
-			i++;
-		}
-		return (0);
-	}
-	else
-	{
-		if (s1 == s2)
-			return (1);
-	}
-	return (0);
 }

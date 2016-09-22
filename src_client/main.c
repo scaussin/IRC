@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:33:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/03 20:48:56 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/22 18:54:45 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,22 @@ void	main_loop(t_client *e)
 
 void	init_client(t_client *e)
 {
+	if (e->chan)
+		free(e->chan);
+	if (e->host)
+		free(e->host);
+	if (e->func_client)
+		free(e->func_client);
+	if (e->func_server)
+		free(e->func_server);
 	bzero(e, sizeof(t_client));
 	e->socket = -1;
-	e->chan = NULL;
-	e->nick[0] = 0;
-	e->leaving = 0;
 	e->func_client = Xv(NULL,
 		malloc(NB_PTR_FUNC_CLIENT * sizeof(t_func_client)), "malloc");
-	init_ptr_func_client(e->func_client);
+		init_ptr_func_client(e->func_client);
 	e->func_server = Xv(NULL,
 		malloc(NB_PTR_FUNC_SERVER * sizeof(t_func_server)), "malloc");
-	init_ptr_func_server(e->func_server);
+		init_ptr_func_server(e->func_server);
 }
 
 void	init_ptr_func_client(t_func_client *func_client)
@@ -93,5 +98,4 @@ void	init_ptr_func_server(t_func_server *func_server)
 	func_server[9].func = cmd_start_end_list_server;
 	func_server[10].name = "323";
 	func_server[10].func = cmd_start_end_list_server;
-
 }

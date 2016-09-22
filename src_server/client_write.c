@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 10:44:23 by scaussin          #+#    #+#             */
-/*   Updated: 2016/08/26 23:59:59 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 11:11:47 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	client_write(t_env *e, int cs)
 		write_log(WARNING_SEND);
 	if (ret_send > 0)
 	{
-		e->fds[cs].buf_write.start = (e->fds[cs].buf_write.start + ret_send) % BUF_SIZE;
+		e->fds[cs].buf_write.start = (e->fds[cs].buf_write.start + ret_send)
+		% BUF_SIZE;
 		e->fds[cs].buf_write.len -= ret_send;
 	}
 }

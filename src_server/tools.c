@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_tools.c                                        :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:10:04 by scaussin          #+#    #+#             */
-/*   Updated: 2016/08/01 22:38:49 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 11:08:16 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	init_ptr_func(t_ptr_func *ptr_func)
 	ptr_func[7].func = cmd_who;
 	ptr_func[8].name = "USERS";
 	ptr_func[8].func = cmd_users;
+	init_ptr_func_2(ptr_func);
+}
+
+void	init_ptr_func_2(t_ptr_func *ptr_func)
+{
 	ptr_func[9].name = "PART";
 	ptr_func[9].func = cmd_part;
 	ptr_func[10].name = "QUIT";
@@ -43,6 +48,7 @@ void	init_ptr_func(t_ptr_func *ptr_func)
 	ptr_func[13].name = "LIST";
 	ptr_func[13].func = cmd_list;
 }
+
 
 char	*gen_prefix(t_fd client)
 {

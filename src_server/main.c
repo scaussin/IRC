@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:27:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/22 19:05:08 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 11:56:07 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	init_env(t_env *e)
 	e->maxfd = rlp.rlim_cur;
 	e->fds = (t_fd*)Xv(NULL, malloc(sizeof(*e->fds) * e->maxfd), "malloc");
 	ft_bzero(e->fds, sizeof(*e->fds) * e->maxfd);
-	e->ptr_func = (t_ptr_func*)Xv(NULL, malloc(sizeof(*e->ptr_func) * SIZE_PTR_FUNC), "malloc");
+	e->ptr_func = (t_ptr_func*)Xv(NULL, malloc(sizeof(*e->ptr_func) *
+		SIZE_PTR_FUNC), "malloc");
 	init_ptr_func(e->ptr_func);
 	i = 0;
 	while (i < e->maxfd)

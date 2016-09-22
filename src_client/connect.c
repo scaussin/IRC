@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:31:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/08/31 15:59:28 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 10:02:29 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int		connect_to_srv(t_client *e, char *addr, int port)
 	}
 	e->socket = s;
 	e->host = ft_strdup(addr);
-	ft_printf("\033[32mConnected\033[0m %s:%d\nEnter your nickname : ", addr, port);
+	ft_printf("\033[32mConnected\033[0m %s:%d\nEnter your nickname : ", addr,
+		port);
 	return (1);
 }
 
@@ -58,13 +59,6 @@ void	auth_irc(t_client *e)
 void	close_connection(t_client *e)
 {
 	e = e + 0;
-	/*
-	if (FD_ISSET(cs, &e->fd_write))
-	{
-		FD_ZERO(&e->fd_write);
-		e->r--;
-	}
-	*/
 	close(e->socket);
 	init_client(e);
 	ft_printf("\033[31m[quit]\033[0m You are disconnected\n");

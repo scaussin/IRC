@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:06:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/08/27 00:18:10 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 11:17:57 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,6 @@ int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick)
 	}
 }
 
-int		str_isalnum(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (!ft_isalnum(str[i]))
-			return (-1);
-		i++;
-	}
-	return (1);
-}
 
 int		check_nick_in_use(t_env *e, int cs, char *new_nick)
 {
@@ -99,21 +86,34 @@ void	register_client(t_fd *client)
 {
 	char	**params;
 
-	if (client->type == FD_CLIENT_NO_REGISTER && client->name && client->nick[0])
+	if (client->type == FD_CLIENT_NO_REGISTER && client->name &&
+		client->nick[0])
 	{
 		ft_printf("Client [%s] accepted\n", client->nick);
 		params = malloc_params(1);
 		ft_strcpy(params[0], client->nick);
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "001", params, "Welcome to the irc_scaussin"));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "002", params, "Your host is irc_scaussin, running version 1"));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "003", params, "This server was created Today"));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "004", params, NULL));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "005", params, NULL));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "251", params, "There are 22 users and 31421 invisible on 47 servers"));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "252", params, "operator(s) online"));
-		send_protocol_to_client(client, fill_protocol(NAME_SERVER, "NOTICE", params, "Welcome"));
-
+		register_client_2(client, params);
 		client->type = FD_CLIENT_REGISTER;
 		free_params(params);
 	}
+}
+
+void	register_client_2(t_fd *client, char **params)
+{
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "001", params,
+		"Welcome to the irc_scaussin"));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "002", params,
+		"Your host is irc_scaussin, running version 1"));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "003", params,
+		"This server was created Today"));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "004", params,
+		NULL));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "005", params,
+		NULL));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "251", params,
+		"There are 22 users and 31421 invisible on 47 servers"));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "252", params,
+		"operator(s) online"));
+	send_protocol_to_client(client, fill_protocol(NAME_SERVER, "NOTICE",
+		params, "Welcome"));
 }

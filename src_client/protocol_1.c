@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   protocol.c                                         :+:      :+:    :+:   */
+/*   protocol_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 14:57:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/28 01:47:35 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 09:52:39 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,4 @@ void	free_params(char **params)
 		}
 		free(params);
 	}
-}
-
-char	**malloc_params(int size)
-{
-	char	**params;
-	int		i;
-
-	i = 0;
-	params = (char **)Xv(NULL, malloc(sizeof(char *) * (size + 1)), "malloc");
-	params[size] = NULL;
-	while (i < size)
-	{
-		params[i] = (char *)Xv(NULL, malloc(sizeof(char) * MAX_SIZE_MSG_IRC)
-			, "malloc");
-		ft_bzero(params[i], MAX_SIZE_MSG_IRC);
-		i++;
-	}
-	return (params);
 }

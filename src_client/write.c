@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:28:50 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 22:10:28 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/21 09:53:55 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ void	send_server(t_ring_buf *buf, int cs)
 		if (ret_send == -1 && (errno == EAGAIN || errno == EINTR))
 			continue;
 		else
-		{
-			//ft_printf("out => ");
-			//write(1, data, buf->len);
 			break;
-		}
 	}
 	free(data);
 	if (ret_send == -1)
