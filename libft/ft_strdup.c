@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/20 15:28:59 by scaussin          #+#    #+#             */
-/*   Updated: 2016/08/27 00:12:31 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/22 19:33:24 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strdup(const char *s1)
 			cpy[i] = s1[i];
 			i++;
 		}
-		cpy[i] = NULL;
+		cpy[i] = 0;
 		return (cpy);
 	}
 	return (NULL);
