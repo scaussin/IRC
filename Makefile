@@ -6,7 +6,7 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/09/21 11:59:47 by scaussin         ###   ########.fr        #
+#    Updated: 2016/09/28 15:16:22 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ clean:
 
 fclean:
 				@echo "\033[31m[fclean]\t\033[0m[fclean] libft\t\t" | tr -d '\n'
-				#Make -C libft fclean
+				Make -C libft fclean
 				@echo "\033[32mOK\033[0m"
 				@echo "\t\t[clean] .o files\t\033[32mOK\033[0m"
 				@echo "\t\trm $(NAME1) $(NAME2)\t" | tr -d '\n'
