@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:31:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 10:02:29 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 11:36:50 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int		connect_to_srv(t_client *e, char *addr, int port)
 
 	if ((host = gethostbyname(addr)))
 		addr = inet_ntoa(*((struct in_addr **)(host->h_addr_list))[0]);
-
-	pe = (struct protoent*)Xv(NULL, getprotobyname("tcp"), "getprotobyname");
+	pe = (struct protoent*)XV(NULL, getprotobyname("tcp"), "getprotobyname");
 	s = X(-1, socket(PF_INET, SOCK_STREAM, pe->p_proto), "socket");
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = inet_addr(addr);

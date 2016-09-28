@@ -26,7 +26,7 @@ t_fd	**get_clients_on_chan(t_env *e, char *chan)
 
 	i = 0;
 	j = 0;
-	lst_client = (t_fd **)Xv(NULL, malloc((e->max + 1) * sizeof(t_fd *)),
+	lst_client = (t_fd **)XV(NULL, malloc((e->max + 1) * sizeof(t_fd *)),
 		"malloc");
 	ft_bzero(lst_client, (e->max + 1) * sizeof(t_fd *));
 	while (i <= e->max)
@@ -46,7 +46,7 @@ void	cmd_unknown(t_env *e, int cs, t_protocol msg)
 {
 	char	*trailer;
 
-	trailer = (char *)Xv(NULL, malloc(BUF_SIZE), "malloc");
+	trailer = (char *)XV(NULL, malloc(BUF_SIZE), "malloc");
 	ft_strcpy(trailer, "command ");
 	ft_strcat(trailer, msg.command);
 	ft_strcat(trailer, " uncknown");

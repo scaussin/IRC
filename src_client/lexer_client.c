@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 20:17:28 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/30 22:06:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 11:53:56 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int		lexer_client(t_client *e, t_parsing_client *msg)
 	line = read_buf(e->buf_read_client);
 	tmp = line;
 	if (!line)
-	{
 		free(tmp);
+	if (!line)
 		return (0);
-	}
 	if (!(end = ft_strstr(line, "\n")))
 	{
 		free(tmp);
@@ -47,7 +46,6 @@ int		extract_cmd_client(char **str, t_parsing_client *msg)
 	char	*end;
 
 	msg->command = NULL;
-
 	if (*str[0] == '/' && ft_isalnum((*str)[1]))
 	{
 		end = ft_strchr(*str, ' ');

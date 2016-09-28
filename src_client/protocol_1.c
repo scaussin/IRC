@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 14:57:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 09:52:39 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:12:33 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char		*protocol_to_string(t_protocol msg)
 	return (str);
 }
 
-void	print_protocol(t_protocol msg)
+void		print_protocol(t_protocol msg)
 {
 	int		i;
 
@@ -51,7 +51,7 @@ void	print_protocol(t_protocol msg)
 	if (!msg.params)
 		ft_printf("params: (null)\n");
 	else
-	ft_printf("params:\n");
+		ft_printf("params:\n");
 	while (msg.params && (msg.params)[i])
 	{
 		ft_printf("\t|%s|\n", (msg.params)[i]);
@@ -93,7 +93,7 @@ void		free_protocol(t_protocol msg)
 		free(msg.trailer);
 }
 
-void	free_params(char **params)
+void		free_params(char **params)
 {
 	int		i;
 

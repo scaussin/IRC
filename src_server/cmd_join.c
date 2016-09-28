@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:11:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/04/24 23:29:51 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:20:10 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		check_error_join(t_env *e, int cs, char **params)
 {
-	if (!params || !params[0] || !params[0][0] || params[0][0] != '#' 
+	if (!params || !params[0] || !params[0][0] || params[0][0] != '#'
 		|| !ft_isprint(params[0][1]))
 	{
 		send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:27:54 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 11:56:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:30:48 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	main_loop(t_env *e)
 
 void	init_env(t_env *e)
 {
-	int		i;
+	int				i;
 	struct rlimit	rlp;
 
 	X(-1, getrlimit(RLIMIT_NOFILE, &rlp), "getrlimit");
 	e->maxfd = rlp.rlim_cur;
-	e->fds = (t_fd*)Xv(NULL, malloc(sizeof(*e->fds) * e->maxfd), "malloc");
+	e->fds = (t_fd*)XV(NULL, malloc(sizeof(*e->fds) * e->maxfd), "malloc");
 	ft_bzero(e->fds, sizeof(*e->fds) * e->maxfd);
-	e->ptr_func = (t_ptr_func*)Xv(NULL, malloc(sizeof(*e->ptr_func) *
+	e->ptr_func = (t_ptr_func*)XV(NULL, malloc(sizeof(*e->ptr_func) *
 		SIZE_PTR_FUNC), "malloc");
 	init_ptr_func(e->ptr_func);
 	i = 0;
@@ -73,8 +73,8 @@ void	srv_create(t_env *e, int port)
 	int					s;
 	struct sockaddr_in	sin;
 	struct protoent		*pe;
-	
-	pe = (struct protoent*)Xv(NULL, getprotobyname("tcp"), "getprotobyname");
+
+	pe = (struct protoent*)XV(NULL, getprotobyname("tcp"), "getprotobyname");
 	s = X(-1, socket(PF_INET, SOCK_STREAM, pe->p_proto), "socket");
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;

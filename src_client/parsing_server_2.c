@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/02 16:33:24 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/02 16:41:34 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:12:01 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char	*formate_origin_privmsg(t_protocol *msg)
 	char	*from_nick;
 
 	from_nick = extract_nick_prefix(msg->prefix);
-	origin = Xv(NULL, malloc(ft_strlen(from_nick) + ft_strlen(msg->params[0]) + 3), "malloc");
+	origin = XV(NULL, malloc(ft_strlen(from_nick) +
+		ft_strlen(msg->params[0]) + 3), "malloc");
 	if (msg->params[0][0] == '#')
 	{
 		ft_strcat(origin, msg->params[0]);

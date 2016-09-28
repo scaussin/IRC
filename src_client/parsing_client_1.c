@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 20:20:04 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 09:55:32 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:01:04 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	send_row_cmd_client(t_client *e, t_parsing_client *msg)
 	params[1] = NULL;
 	while (msg->command[i])
 	{
-		msg->command[i]	= ft_toupper(msg->command[i]);
+		msg->command[i] = ft_toupper(msg->command[i]);
 		i++;
 	}
 	send_protocol_to_server(e,

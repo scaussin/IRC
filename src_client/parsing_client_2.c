@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 09:53:46 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/22 18:24:27 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:01:32 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ void	cmd_connect(t_client *e, t_parsing_client *msg)
 void	send_privmsg(t_client *e, char *to, char *msg)
 {
 	char	*(params[2]);
-	char	default_chan[] = "irc_scaussin";
+	char	*default_chan;
 
+	default_chan = "irc_scaussin";
 	if (!to)
 		to = default_chan;
 	params[0] = to;

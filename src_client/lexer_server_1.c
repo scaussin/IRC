@@ -71,7 +71,7 @@ int		extract_prefix(char **prefix, char **msg)
 		write_log("warning", "lexer no cmd");
 		return (-1);
 	}
-	*prefix = (char *)Xv(NULL, malloc(end - *msg + 1), "malloc");
+	*prefix = (char *)XV(NULL, malloc(end - *msg + 1), "malloc");
 	ft_memcpy(*prefix, *msg, end - *msg);
 	(*prefix)[end - *msg] = 0;
 	*msg = end + 1;
@@ -91,7 +91,7 @@ int		extract_command(char **command, char **msg)
 	}
 	if (!(end = ft_strstr(*msg, " ")))
 		end = ft_strrchr(*msg, 0);
-	(*command) = (char *)Xv(NULL, malloc((end - *msg) + 1), "malloc");
+	(*command) = (char *)XV(NULL, malloc((end - *msg) + 1), "malloc");
 	ft_memcpy(*command, *msg, end - *msg);
 	(*command)[end - *msg] = 0;
 	if (end[0])

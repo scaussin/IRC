@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 11:05:09 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 12:00:14 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:28:08 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,21 @@ int		str_isalnum(char *str)
 			return (-1);
 		i++;
 	}
+	return (1);
+}
+
+void	cmd_users(t_env *e, int cs, t_protocol msg)
+{
+	msg = *(&msg);
+	send_protocol_to_client(&e->fds[cs],
+		fill_protocol(NAME_SERVER, "446", NULL,
+			"cmd USERS disabled"));
+}
+
+int		extract_params(char ***params, char **msg)
+{
+	if (!msg || !*msg || !**msg)
+		return (0);
+	(*params) = ft_strsplit(*msg, ' ');
 	return (1);
 }

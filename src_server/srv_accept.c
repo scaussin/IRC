@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   srv_accept.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/28 12:24:34 by scaussin          #+#    #+#             */
+/*   Updated: 2016/09/28 12:24:42 by scaussin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <netinet/in.h>
@@ -17,7 +28,7 @@ void			srv_accept(t_env *e, int s)
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	clean_fd(&e->fds[cs]);
 	tmp_port = ft_itoa(ntohs(csin.sin_port));
-	e->fds[cs].host = (char *)Xv(NULL, malloc(ft_strlen(inet_ntoa(
+	e->fds[cs].host = (char *)XV(NULL, malloc(ft_strlen(inet_ntoa(
 		csin.sin_addr)) + ft_strlen(tmp_port) + 2), "malloc");
 	ft_strcpy(e->fds[cs].host, inet_ntoa(csin.sin_addr));
 	ft_strcat(e->fds[cs].host, ":");

@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:06:26 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 11:17:57 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:21:09 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cmd_nick(t_env *e, int cs, t_protocol msg)
 	char	*prefix_tmp;
 	char	*new_nick;
 
-	if (check_error_nick(e, cs , msg, &new_nick) == 1)
+	if (check_error_nick(e, cs, msg, &new_nick) == 1)
 	{
 		if (e->fds[cs].type == FD_CLIENT_REGISTER)
 		{
@@ -55,7 +55,6 @@ int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick)
 		return (-1);
 	}
 }
-
 
 int		check_nick_in_use(t_env *e, int cs, char *new_nick)
 {

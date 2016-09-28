@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 00:10:04 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 11:08:16 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:28:49 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,11 @@ void	init_ptr_func_2(t_ptr_func *ptr_func)
 	ptr_func[13].func = cmd_list;
 }
 
-
 char	*gen_prefix(t_fd client)
 {
 	char	*prefix;
 
-	prefix = (char *)Xv(NULL, malloc(MAX_SIZE_MSG_IRC), "malloc");
+	prefix = (char *)XV(NULL, malloc(MAX_SIZE_MSG_IRC), "malloc");
 	ft_strcpy(prefix, client.nick);
 	ft_strcat(prefix, "!");
 	ft_strcat(prefix, client.name);
@@ -85,11 +84,11 @@ char	**malloc_params(int size)
 	int		i;
 
 	i = 0;
-	params = (char **)Xv(NULL, malloc(sizeof(char *) * (size + 1)), "malloc");
+	params = (char **)XV(NULL, malloc(sizeof(char *) * (size + 1)), "malloc");
 	params[size] = NULL;
 	while (i < size)
 	{
-		params[i] = (char *)Xv(NULL, malloc(sizeof(char) * MAX_SIZE_MSG_IRC)
+		params[i] = (char *)XV(NULL, malloc(sizeof(char) * MAX_SIZE_MSG_IRC)
 			, "malloc");
 		ft_bzero(params[i], MAX_SIZE_MSG_IRC);
 		i++;

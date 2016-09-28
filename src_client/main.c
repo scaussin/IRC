@@ -6,13 +6,13 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 13:33:51 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/22 18:54:45 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 14:08:12 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client_irc.h"
 
-int main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_client	e;
 
@@ -50,12 +50,12 @@ void	init_client(t_client *e)
 		free(e->func_server);
 	bzero(e, sizeof(t_client));
 	e->socket = -1;
-	e->func_client = Xv(NULL,
-		malloc(NB_PTR_FUNC_CLIENT * sizeof(t_func_client)), "malloc");
-		init_ptr_func_client(e->func_client);
-	e->func_server = Xv(NULL,
-		malloc(NB_PTR_FUNC_SERVER * sizeof(t_func_server)), "malloc");
-		init_ptr_func_server(e->func_server);
+	e->func_client = XV(NULL,
+		malloc(NBPTRFUNCCLIENT * sizeof(t_func_client)), "malloc");
+	init_ptr_func_client(e->func_client);
+	e->func_server = XV(NULL,
+		malloc(NBPTRFUNCSERVER * sizeof(t_func_server)), "malloc");
+	init_ptr_func_server(e->func_server);
 }
 
 void	init_ptr_func_client(t_func_client *func_client)

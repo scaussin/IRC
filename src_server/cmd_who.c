@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 11:02:02 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 11:55:28 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:29:19 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ void	cmd_names(t_env *e, int cs, t_protocol msg)
 	send_protocol_to_client(&e->fds[cs], fill_protocol(NAME_SERVER,
 		"366", params_end, "End of /NAMES list."));
 	free_params(params_end);
-}
-
-void	cmd_users(t_env *e, int cs, t_protocol msg)
-{
-	msg = *(&msg);
-	send_protocol_to_client(&e->fds[cs],
-		fill_protocol(NAME_SERVER, "446", NULL,
-			"cmd USERS disabled"));
 }
 
 void	cmd_who(t_env *e, int cs, t_protocol msg)
@@ -60,10 +52,6 @@ void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan)
 	char	**params_list;
 	char	*trailer;
 
-	/*i = 0;
-	params_list = malloc_params(7);
-	ft_strcpy(params_list[0], e->fds[cs].nick);
-	ft_strcpy(params_list[1], e->fds[cs].chan);*/
 	params_list = send_lst_who_2(&i, e->fds[cs].nick, e->fds[cs].chan);
 	while (clients_on_chan && clients_on_chan[i])
 	{
@@ -72,7 +60,7 @@ void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan)
 		ft_strcpy(params_list[4], NAME_SERVER);
 		ft_strcpy(params_list[5], clients_on_chan[i]->nick);
 		ft_strcpy(params_list[6], "H@");
-		trailer = (char *)Xv(NULL, malloc(ft_strlen(clients_on_chan[i]->name +
+		trailer = (char *)XV(NULL, malloc(ft_strlen(clients_on_chan[i]->name +
 			3)), "malloc");
 		ft_strcpy(trailer, "0 ");
 		ft_strcat(trailer, clients_on_chan[i]->name);
@@ -96,7 +84,6 @@ char	**send_lst_who_2(int *i, char *nick, char *chan)
 	ft_strcpy(params_list[1], chan);
 	return (params_list);
 }
-
 
 void	send_lst_names(t_env *e, int cs, t_fd **clients_on_chan)
 {

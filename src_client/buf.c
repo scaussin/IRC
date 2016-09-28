@@ -50,7 +50,7 @@ char	*read_buf(t_ring_buf buf)
 	ret_data = NULL;
 	if (buf.len > 0)
 	{
-		ret_data = (char *)Xv(NULL, malloc(buf.len + 1), "malloc");
+		ret_data = (char *)XV(NULL, malloc(buf.len + 1), "malloc");
 		ft_bzero(ret_data, buf.len + 1);
 		i = 0;
 		while (i < buf.len)

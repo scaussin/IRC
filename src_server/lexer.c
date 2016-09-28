@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 17:48:02 by scaussin          #+#    #+#             */
-/*   Updated: 2016/05/28 01:24:07 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:28:13 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		check_error(char *line, char **end, t_ring_buf *buf)
 	if ((*end = ft_strstr(line, END)) == 0)
 	{
 		write_log(WARNING_MSG_IRC_NOT_ENDING);
-		//buf->len = 0;
 		free(line);
 		return (0);
 	}
@@ -72,7 +71,7 @@ int		extract_prefix(char **prefix, char **msg)
 		write_log(WARNING_LEXER_NO_CMD);
 		return (-1);
 	}
-	*prefix = (char *)Xv(NULL, malloc(end - *msg + 1), "malloc");
+	*prefix = (char *)XV(NULL, malloc(end - *msg + 1), "malloc");
 	ft_memcpy(*prefix, *msg, end - *msg);
 	(*prefix)[end - *msg] = 0;
 	*msg = end + 1;
@@ -92,21 +91,13 @@ int		extract_command(char **command, char **msg)
 	}
 	if (!(end = ft_strstr(*msg, " ")))
 		end = ft_strrchr(*msg, 0);
-	(*command) = (char *)Xv(NULL, malloc((end - *msg) + 1), "malloc");
+	(*command) = (char *)XV(NULL, malloc((end - *msg) + 1), "malloc");
 	ft_memcpy(*command, *msg, end - *msg);
 	(*command)[end - *msg] = 0;
 	if (end[0])
 		*msg = end + 1;
 	else
 		*msg = end;
-	return (1);
-}
-
-int		extract_params(char ***params, char **msg)
-{
-	if (!msg || !*msg || !**msg)
-		return (0);
-	(*params) = ft_strsplit(*msg, ' ');
 	return (1);
 }
 

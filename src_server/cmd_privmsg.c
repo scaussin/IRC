@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 20:34:56 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/30 20:46:40 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:20:33 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,3 @@ t_fd	*get_client_by_nick(t_env *e, int cs, char *nick)
 	free_params(params);
 	return (NULL);
 }
-
-

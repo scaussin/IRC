@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 00:25:39 by scaussin          #+#    #+#             */
-/*   Updated: 2016/07/31 21:42:48 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:13:02 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		read_circular(t_ring_buf *buf_read, int cs)
 	size_read = BUF_SIZE - buf_read->len;
 	if (size_read == 0)
 		write_log("error", "buf read full");
-	buf_tmp = (char *)Xv(NULL, malloc(size_read), "malloc");
+	buf_tmp = (char *)XV(NULL, malloc(size_read), "malloc");
 	while (1)
 	{
 		if (cs == 0)
@@ -33,7 +33,7 @@ int		read_circular(t_ring_buf *buf_read, int cs)
 		if (ret == -1 && (errno == EAGAIN || errno == EINTR))
 			continue;
 		else
-			break;
+			break ;
 	}
 	if (ret == -1)
 		write_log("warning", "receive");

@@ -6,12 +6,12 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 23:43:00 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 11:57:05 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 14:46:42 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BIRCD_H_
-# define BIRCD_H_
+#ifndef BIRCD_H
+# define BIRCD_H
 
 # include "libft.h"
 
@@ -30,22 +30,20 @@
 # define END					"\r\n"
 # define NAME_SERVER			"irc_scaussin"
 
-# define Xv(err,res,str)	(x_void(err,res,str,__FILE__,__LINE__))
-# define X(err,res,str)		(x_int(err,res,str,__FILE__,__LINE__))
+# define XV(err,res,str)	(x_void(err,res,str,__FILE__))
+# define X(err,res,str)		(x_int(err,res,str,__FILE__))
 # define MAX(a,b)	((a > b) ? a : b)
 # define MIN(a,b)	((a < b) ? a : b)
 
 # define USAGE		"Usage: %s port\n"
 
-typedef enum	error_code
+typedef enum	e_error_code
 {
 	SUCCES_CLIENT_CONNECTED,
 	SUCCES_CLIENT_DISCONNECTED,
-
 	ERROR_FATAL = 100,
 	ERROR_BUFFER_WRITE_FULL,
 	ERROR_BUFFER_READ_FULL,
-
 	WARNING_CLIENT_LOST = 200,
 	WARNING_RECEIVE,
 	WARNING_MSG_IRC_TOO_LONG,
@@ -54,10 +52,9 @@ typedef enum	error_code
 	WARNING_SEND,
 	WARNING_LEXER,
 	WARNING_LEXER_NO_CMD,
-
 	INFO = 300,
 	INFO_ROOM_CREATED
-}				e_error_code;
+}				t_error_code;
 
 typedef struct	s_protocol
 {
@@ -105,125 +102,77 @@ typedef struct	s_pt
 	void		(*func)(t_env *e, int cs, t_protocol msg);
 }				t_ptr_func;
 
-void	init_env(t_env *e);
-void	get_opt(t_env *e, int ac, char **av);
-void	main_loop(t_env *e);
-void	srv_create(t_env *e, int port);
-void	srv_accept(t_env *e, int s);
-void	clean_fd(t_fd *fd);
+void			init_env(t_env *e);
+void			get_opt(t_env *e, int ac, char **av);
+void			main_loop(t_env *e);
+void			srv_create(t_env *e, int port);
+void			srv_accept(t_env *e, int s);
+void			clean_fd(t_fd *fd);
+void			init_fd(t_env *e);
+void			do_select(t_env *e);
+void			check_fd(t_env *e);
+void			*x_void(void *err, void *res, char *str, char *file);
+int				x_int(int err, int res, char *str, char *file);
+void			print_buf(t_ring_buf buf);
+void			write_log(t_error_code error);
+int				str_equal(char *s1, char *s2);
+void			client_read(t_env *e, int cs);
+void			close_connection(t_env *e, int cs);
+int				read_circular(t_ring_buf *buf_read, int cs);
+void			write_buf(t_ring_buf *buf, char *to_write, int size);
+char			*read_buf(t_ring_buf buf);
+void			client_write(t_env *e, int cs);
+void			send_str_to_client(t_fd *client, char *str);
+void			send_protocol_to_client(t_fd *client, t_protocol msg);
+void			send_protocol_to_chan(t_env *e, int cs, t_protocol msg);
+void			send_to_chan_exept_sender(t_env *e, int cs, t_protocol msg);
+int				lexer(t_protocol *msg, t_ring_buf *buf);
+int				extract_prefix(char **prefix, char **msg);
+int				extract_command(char **command, char **msg);
+int				extract_params(char ***params, char **msg);
+int				extract_trailer(char **trailer, char **msg);
+int				check_error(char *line, char **end, t_ring_buf *buf);
+void			parser(t_env *e, int cs, t_protocol msg);
+void			print_protocol(t_protocol msg);
+char			*protocol_to_string(t_protocol msg);
+t_protocol		fill_protocol(char *prefix, char *cmd, char **params,
+				char *trailer);
+void			free_protocol(t_protocol msg);
+void			cmd_unknown(t_env *e, int cs, t_protocol msg);
+void			cmd_user(t_env *e, int cs, t_protocol msg);
+void			cmd_ping(t_env *e, int cs, t_protocol msg);
+void			cmd_away(t_env *e, int cs, t_protocol msg);
+void			cmd_names(t_env *e, int cs, t_protocol msg);
+t_fd			**get_clients_on_chan(t_env *e, char *chan);
+void			send_lst_names(t_env *e, int cs, t_fd **clients_on_chan);
+void			cmd_users(t_env *e, int cs, t_protocol msg);
+void			cmd_who(t_env *e, int cs, t_protocol msg);
+void			send_lst_who(t_env *e, int cs, t_fd **clients_on_chan);
+void			cmd_part(t_env *e, int cs, t_protocol msg);
+void			cmd_quit(t_env *e, int cs, t_protocol msg);
+char			**send_lst_who_2(int *i, char *nick, char *chan);
+void			cmd_list(t_env *e, int cs, t_protocol msg);
+char			**get_chan_list(t_env *e);
+int				str_exist_in_array(char **array, char *str);
+void			init_ptr_func(t_ptr_func *ptr_func);
+void			init_ptr_func_2(t_ptr_func *ptr_func);
+void			free_params(char **params);
+char			**malloc_params(int size);
+char			*gen_prefix(t_fd client);
+void			cmd_privmsg(t_env *e, int cs, t_protocol msg);
+int				privmsg_to_client(t_env *e, int cs, char *nick_dest,
+				char *msg_to_send);
+t_fd			*get_client_by_nick(t_env *e, int cs, char *nick);
+void			privmsg_to_chan(t_env *e, int cs, char **chan_dest,
+				char *msg_to_send);
+int				check_error_nick(t_env *e, int cs, t_protocol msg,
+				char **new_nick);
+void			cmd_nick(t_env *e, int cs, t_protocol msg);
+int				check_nick_in_use(t_env *e, int cs, char *new_nick);
+void			register_client(t_fd *client);
+int				str_isalnum(char *str);
+void			register_client_2(t_fd *client, char **params);
+void			cmd_join(t_env *e, int cs, t_protocol msg);
+int				check_error_join(t_env *e, int cs, char **params);
 
-/*
-** select.c
-*/
-void	init_fd(t_env *e);
-void	do_select(t_env *e);
-void	check_fd(t_env *e);
-
-/*
-** x.c
-*/
-void	*x_void(void *err, void *res, char *str, char *file, int line);
-int		x_int(int err, int res, char *str, char *file, int line);
-void	print_buf(t_ring_buf buf);
-void	write_log(e_error_code error);
-int		str_equal(char *s1, char *s2);
-
-/*
-** client_read.c
-*/
-void	client_read(t_env *e, int cs);
-void	close_connection(t_env *e, int cs);
-int		read_circular(t_ring_buf *buf_read, int cs);
-void	write_buf(t_ring_buf *buf, char *to_write, int size);
-char	*read_buf(t_ring_buf buf);
-
-/*
-** client_write.c
-*/
-void	client_write(t_env *e, int cs);
-void	send_str_to_client(t_fd *client, char *str);
-void	send_protocol_to_client(t_fd *client, t_protocol msg);
-void	send_protocol_to_chan(t_env *e, int cs, t_protocol msg);
-void	send_to_chan_exept_sender(t_env *e, int cs, t_protocol msg);
-
-/*
-** lexer.c
-*/
-int		lexer(t_protocol *msg, t_ring_buf *buf);
-int		extract_prefix(char **prefix, char **msg);
-int		extract_command(char **command, char **msg);
-int		extract_params(char ***params, char **msg);
-int		extract_trailer(char **trailer, char **msg);
-int		check_error(char *line, char **end, t_ring_buf *buf);
-
-/*
-** parser.c
-*/
-void	parser(t_env *e, int cs, t_protocol msg);
-
-/*
-** protocol.c
-*/
-void	print_protocol(t_protocol msg);
-char	*protocol_to_string(t_protocol msg);
-t_protocol	fill_protocol(char *prefix, char *cmd, char **params, char *trailer);
-void		free_protocol(t_protocol msg);
-
-/*
-** cmd.c
-*/
-void	cmd_unknown(t_env *e, int cs, t_protocol msg);
-void	cmd_user(t_env *e, int cs, t_protocol msg);
-void	cmd_ping(t_env *e, int cs, t_protocol msg);
-void	cmd_away(t_env *e, int cs, t_protocol msg);
-void	cmd_names(t_env *e, int cs, t_protocol msg);
-t_fd	**get_clients_on_chan(t_env *e, char *chan);
-void	send_lst_names(t_env *e, int cs, t_fd **clients_on_chan);
-void	cmd_users(t_env *e, int cs, t_protocol msg);
-void	cmd_who(t_env *e, int cs, t_protocol msg);
-void	send_lst_who(t_env *e, int cs, t_fd **clients_on_chan);
-void	cmd_part(t_env *e, int cs, t_protocol msg);
-void	cmd_quit(t_env *e, int cs, t_protocol msg);
-char	**send_lst_who_2(int *i, char *nick, char *chan);
-
-/*
-** cmd_list.c
-*/
-void	cmd_list(t_env *e, int cs, t_protocol msg);
-char	**get_chan_list(t_env *e);
-int		str_exist_in_array(char **array, char *str);
-
-/*
-** tools.c
-*/
-void	init_ptr_func(t_ptr_func *ptr_func);
-void	init_ptr_func_2(t_ptr_func *ptr_func);
-void	free_params(char **params);
-char	**malloc_params(int size);
-char	*gen_prefix(t_fd client);
-
-/*
-** cmd_privmsg.c
-*/
-void	cmd_privmsg(t_env *e, int cs, t_protocol msg);
-int		privmsg_to_client(t_env *e, int cs, char *nick_dest, char *msg_to_send);
-t_fd	*get_client_by_nick(t_env *e, int cs, char *nick);
-void	privmsg_to_chan(t_env *e, int cs, char **chan_dest, char *msg_to_send);
-
-/*
-** cmd_nick.c
-*/
-int		check_error_nick(t_env *e, int cs, t_protocol msg, char **new_nick);
-void	cmd_nick(t_env *e, int cs, t_protocol msg);
-int		check_nick_in_use(t_env *e, int cs, char *new_nick);
-void	register_client(t_fd *client);
-int		str_isalnum(char *str);
-void	register_client_2(t_fd *client, char **params);
-
-/*
-** cmd_join.c
-*/
-void	cmd_join(t_env *e, int cs, t_protocol msg);
-int		check_error_join(t_env *e, int cs, char **params);
-
-#endif /* !BIRCD_H_ */
+#endif

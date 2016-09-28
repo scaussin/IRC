@@ -45,7 +45,7 @@ char	**get_chan_list(t_env *e)
 
 	i = 0;
 	j = 0;
-	chan_list = (char **)Xv(NULL,
+	chan_list = (char **)XV(NULL,
 		malloc((e->max + 1) * sizeof(char *)), "malloc");
 	ft_bzero(chan_list, (e->max + 1) * sizeof(char *));
 	while (i <= e->max)

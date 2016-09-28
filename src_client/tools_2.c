@@ -6,7 +6,7 @@
 /*   By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 09:46:03 by scaussin          #+#    #+#             */
-/*   Updated: 2016/09/21 13:56:51 by scaussin         ###   ########.fr       */
+/*   Updated: 2016/09/28 12:18:20 by scaussin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		str_equal(char *s1, char *s2)
 	int		i;
 
 	i = 0;
-	if(s1 && s2)
+	if (s1 && s2)
 	{
 		while (s1[i] == s2[i])
 		{
