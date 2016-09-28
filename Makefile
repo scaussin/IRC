@@ -6,11 +6,11 @@
 #    By: scaussin <scaussin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/10 13:31:18 by scaussin          #+#    #+#              #
-#    Updated: 2016/09/28 15:16:22 by scaussin         ###   ########.fr        #
+#    Updated: 2016/09/28 16:40:33 by scaussin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME1 =			server
+NAME1 =			serveur
 
 NAME2 =			client
 
