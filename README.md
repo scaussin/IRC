@@ -1,4 +1,4 @@
-| Language | Field           | project | grade |
+| Language | Field           | Project | Grade |
 | :------: |:---------------:| :------:|:-----:|
 | C      | UNIX - Network | Solo     |110/125|
 # IRC
