@@ -22,3 +22,6 @@ The server can therefore accept any IRC client, and the client can connect to an
 ##### Supported commands:
 * `/quit` disconnect from current server
 * `/connect <ip> <port>` connect to a IRC server
+
+## Screenshot
+![sreenshot](https://raw.githubusercontent.com/scaussin/IRC/master/sreenshot.png)
