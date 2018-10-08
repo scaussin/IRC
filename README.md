@@ -4,7 +4,7 @@
 # IRC
 __Internet Relay Chat__ ([IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat)) is a text-based chat protocol working on a client/server networking model (TCP/IP).
 
-## Introduction
+## Project
 the server and client comply with the official protocol [RFC-1459](https://tools.ietf.org/html/rfc1459).
 The server can therefore accept any IRC client, and the client can connect to any IRC server.
 
