@@ -1,6 +1,8 @@
 | Language | Field           | Project | Grade |
 | :------: |:---------------:| :------:|:-----:|
 | C      | UNIX - Network | Solo     |110/125|
+
+---
 # IRC
 __Internet Relay Chat__ ([IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat)) is a text-based chat protocol working on a client/server networking model (TCP/IP).
 
