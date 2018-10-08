@@ -7,7 +7,9 @@ The server can therefore accept any IRC client, and the client can connect to an
 
 ## Server
 ##### Usage:
-`./server <port>`
+```
+./server <port>
+```
 ##### Supported commands:
 * `/nick <nickname>` change nickname (max 9 characters)
 * `/join <#chan>` join or create a new channel
@@ -18,7 +20,9 @@ The server can therefore accept any IRC client, and the client can connect to an
 
 ## Client
 ##### Usage:
-`./client <ip> <port>`
+```
+./client <ip> <port>
+```
 ##### Supported commands:
 * `/quit` disconnect from current server
 * `/connect <ip> <port>` connect to a IRC server
